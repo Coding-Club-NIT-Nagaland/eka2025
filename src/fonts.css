@@ -1,0 +1,39 @@
+/* Cartoonish font */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Comic+Neue:wght@400;700&display=swap');
+
+/* Apply the font to elements */
+.font-comic {
+  font-family: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Fredoka One', 'Comic Neue', 'Comic Sans MS', cursive, sans-serif;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Add some fun text shadows */
+.text-shadow-cartoon {
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+/* Button hover effects */
+.btn-cartoon {
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+}
+
+.btn-cartoon:hover {
+  transform: translateY(-5px) rotateX(10deg);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Card hover effect */
+.card-cartoon {
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card-cartoon:hover {
+  transform: translateY(-10px) rotate(1deg);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
