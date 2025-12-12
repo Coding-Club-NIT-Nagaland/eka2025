@@ -1,201 +1,209 @@
 import { motion } from "framer-motion";
-import { Sparkles, Heart, Flame, Flower2, Star, Users } from "lucide-react";
+import { Sparkles, Users, BookOpen, Award, Star, Calendar, MapPin, Heart } from "lucide-react";
 
-/* ============================================================
-   🌸 SAKURA PETALS (CSS ONLY, FULLY BLENDED)
-============================================================ */
-const SakuraPetals = () => {
-  const petals = new Array(25).fill(0);
+const About = () => {
+  const features = [
+    {
+      icon: <Sparkles className="w-8 h-8 text-yellow-300" />,
+      title: "Our Vision",
+      description: "To create an unforgettable cultural experience that celebrates creativity, innovation, and the spirit of togetherness."
+    },
+    {
+      icon: <Users className="w-8 h-8 text-pink-300" />,
+      title: "Our Community",
+      description: "A vibrant community of students, artists, and performers coming together to showcase their talents and create lasting memories."
+    },
+    {
+      icon: <BookOpen className="w-8 h-8 text-purple-300" />,
+      title: "Our Story",
+      description: "Founded with a passion for cultural exchange, Ekarikthin has grown into one of the most anticipated events of the year."
+    },
+    {
+      icon: <Award className="w-8 h-8 text-blue-300" />,
+      title: "Achievements",
+      description: "Recognized for excellence in cultural programming and student engagement year after year."
+    }
+  ];
+
+  const stats = [
+    { value: "50+", label: "Events", icon: <Sparkles className="w-6 h-6" /> },
+    { value: "1000+", label: "Participants", icon: <Users className="w-6 h-6" /> },
+    { value: "3", label: "Days", icon: <Calendar className="w-6 h-6" /> },
+    { value: "50+", label: "Workshops", icon: <BookOpen className="w-6 h-6" /> }
+  ];
 
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden z-30">
-      {petals.map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-6 h-6 mix-blend-screen"
-          initial={{
-            x: Math.random() * window.innerWidth,
-            y: -100,
-            rotate: Math.random() * 360,
-            opacity: 0.7,
-          }}
-          animate={{
-            x: "+=80",
-            y: window.innerHeight + 120,
-            rotate: "+=240",
-            opacity: 0.35,
-          }}
-          transition={{
-            duration: 6 + Math.random() * 4,
-            repeat: Infinity,
-            ease: "linear",
-            delay: Math.random() * 2,
-          }}
-        >
-          🌸
-        </motion.div>
-      ))}
-    </div>
-  );
-};
-
-/* ============================================================
-   ✨ PURE CSS ANIME ENERGY GLOW (NO IMAGES)
-============================================================ */
-const AnimeEnergy = () => (
-  <div className="absolute inset-0 pointer-events-none z-0">
-    {/* Cyan soft aura */}
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(0,255,255,0.12),transparent_60%)] mix-blend-screen" />
-
-    {/* Hot pink glow */}
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_35%,rgba(255,80,180,0.15),transparent_70%)] mix-blend-screen" />
-
-    {/* Deep violet ambient */}
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(150,80,255,0.08),transparent_75%)] mix-blend-screen" />
-  </div>
-);
-
-/* ============================================================
-   🌌 GRAIN + SCANLINES WITHOUT IMAGE (CSS-ONLY)
-============================================================ */
-const FilmOverlay = () => (
-  <>
-    {/* Grain simulation using shadows (no images!) */}
-    <div className="pointer-events-none absolute inset-0 opacity-[0.12] z-40"
-      style={{
-        background: `
-          repeating-radial-gradient(circle at 0 0, 
-          rgba(255,255,255,0.03) 0%, transparent 10%)`
-      }}
-    />
-
-    {/* Scanlines (soft anime CRT look) */}
-    <div className="pointer-events-none absolute inset-0 z-40 opacity-[0.08]"
-      style={{
-        background: `
-          repeating-linear-gradient(
-            to bottom,
-            transparent 0px,
-            rgba(255,255,255,0.05) 2px,
-            transparent 4px
-          )`
-      }}
-    />
-  </>
-);
-
-/* ============================================================
-   🌸 MAIN ABOUT PAGE
-============================================================ */
-const AboutAnime = () => {
-  return (
-    <div
-      className="relative min-h-screen overflow-hidden text-white font-[Kosugi Maru]"
-      style={{
-        background: "transparent",
-        backdropFilter: "none",
-      }}
-    >
-      {/* Anime glow */}
-      <AnimeEnergy />
-
-      {/* Sakura petals */}
-      <SakuraPetals />
-
-      {/* Grain & scanlines */}
-      <FilmOverlay />
-
-      {/* ================= HERO SECTION ================= */}
-      <section className="relative z-50 py-40 px-6 text-center max-w-5xl mx-auto">
-        <motion.h1
-          className="text-7xl md:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-400 to-blue-300 drop-shadow-[0_0_20px_#ff75e8]"
-          style={{ fontFamily: "Zen Tokyo Zoo" }}
-          initial={{ opacity: 0, y: -40 }}
+    <div className="min-h-screen bg-transparent">
+      <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      {/* Hero Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="text-center mb-24"
+      >
+        
+        <motion.h1 
+          className="text-5xl md:text-7xl font-extrabold mb-8"
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
         >
-          EKARIKTHIN 2025
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-pink-300 to-purple-400">
+            About Ekarikthin 2025
+          </span>
         </motion.h1>
-
-        <motion.p
-          className="mt-6 text-xl text-white/90 max-w-3xl mx-auto leading-relaxed font-[DotGothic16]"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          A festival that feels like an anime opening—  
-          filled with energy, emotion & unforgettable moments.
-        </motion.p>
-
-        <motion.div
-          className="mt-12 flex justify-center gap-10"
-          animate={{ scale: [1, 1.15, 1] }}
-          transition={{ duration: 3, repeat: Infinity }}
-        >
-          <Sparkles className="w-14 h-14 text-yellow-300" />
-          <Flame className="w-14 h-14 text-pink-300" />
-          <Heart className="w-14 h-14 text-red-400" />
-        </motion.div>
-      </section>
-
-      {/* ================= NIT NAGALAND ================= */}
-      <section className="relative z-50 px-6 py-32 bg-white/10 backdrop-blur-xl border-y border-white/20">
-        <motion.h2
-          className="text-5xl text-center mb-12 bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent font-[Zen Tokyo Zoo]"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-        >
-          NIT NAGALAND
-        </motion.h2>
-
-        <motion.p
-          className="text-white/90 text-center max-w-4xl mx-auto text-lg leading-relaxed"
+        
+        <motion.p 
+          className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
         >
-          A campus tucked among hills—  
-          tranquil like a slice-of-life anime.  
-          A home where culture, unity, and creativity bloom.
+          Where creativity meets culture in an explosion of art, music, and innovation. Join us for an unforgettable journey.
         </motion.p>
-      </section>
+      </motion.div>
 
-      {/* ================= FEATURES ================= */}
-      <section className="relative z-50 py-28 px-6">
-        <motion.h2
-          className="text-5xl text-center font-[Zen Tokyo Zoo] bg-clip-text text-transparent bg-gradient-to-r from-purple-300 to-pink-300 mb-20"
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-        >
-          What Makes It Magical?
-        </motion.h2>
+      {/* Stats Section */}
+      <motion.div 
+        className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-24"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        {stats.map((stat, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1, duration: 0.5 }}
+            className="relative overflow-hidden group"
+          >
+            <div className="relative p-6 rounded-2xl bg-black/20 backdrop-blur-sm border border-white/5 group-hover:border-pink-500/30 transition-all duration-300 h-full hover:bg-black/30">
+              <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-gradient-to-br from-pink-500/20 to-purple-600/20 mb-4 text-pink-300">
+                {stat.icon}
+              </div>
+              <div className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 to-yellow-400 mb-2">
+                {stat.value}
+              </div>
+              <div className="text-gray-400">{stat.label}</div>
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-16 max-w-6xl mx-auto">
-          {[
-            { icon: <Star className="w-16 h-16 text-yellow-300" />, title: "Anime Nights", text: "Vibrant stages glowing like Shibuya." },
-            { icon: <Users className="w-16 h-16 text-blue-300" />, title: "Unity", text: "Friendships that feel like a shonen team." },
-            { icon: <Flower2 className="w-16 h-16 text-pink-300" />, title: "Sakura Vibes", text: "Warmth & culture blooming everywhere." },
-            { icon: <Sparkles className="w-16 h-16 text-cyan-300" />, title: "Magic", text: "Moments that feel like an OP sequence." },
-            { icon: <Flame className="w-16 h-16 text-orange-300" />, title: "Passion", text: "Performers with fire in their hearts." },
-            { icon: <Heart className="w-16 h-16 text-red-400" />, title: "Emotion", text: "Scenes you'll remember forever." },
-          ].map((box, i) => (
-            <motion.div
-              key={i}
-              className="bg-white/10 backdrop-blur-xl p-10 rounded-3xl border border-white/20 hover:scale-[1.05] shadow-xl transition-all"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: i * 0.12 }}
-            >
-              <div className="flex justify-center">{box.icon}</div>
-              <h3 className="mt-6 text-2xl text-white text-center font-[Kosugi Maru]">
-                {box.title}
-              </h3>
-              <p className="mt-4 text-white/80 text-center font-[DotGothic16]">{box.text}</p>
-            </motion.div>
-          ))}
+      {/* Features Section */}
+      <div className="grid md:grid-cols-2 gap-8 mb-24 text-gray-200">
+        {features.map((feature, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            className="relative group"
+          >
+            <div className="relative bg-black/20 backdrop-blur-sm p-8 rounded-2xl border border-white/5 h-full group-hover:border-pink-500/30 hover:bg-black/30 transition-all duration-300">
+              <div className="flex items-center space-x-4 mb-6">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-pink-500/20 to-purple-600/20">
+                  {feature.icon}
+                </div>
+                <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-300 to-purple-300">
+                  {feature.title}
+                </h3>
+              </div>
+              <p className="text-gray-400 leading-relaxed">{feature.description}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Location Section */}
+      <motion.div 
+        className="mb-24"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="bg-black/20 backdrop-blur-sm rounded-2xl border border-white/5 p-8 hover:bg-black/30 transition-colors duration-300">
+          <div className="flex flex-col md:flex-row items-center">
+            <div className="w-full md:w-1/2 mb-8 md:mb-0 md:pr-8">
+              <h2 className="text-3xl font-bold text-white mb-6">Our Location</h2>
+              <p className="text-gray-400 mb-6">
+                Join us at the heart of the cultural extravaganza. Our venue is easily accessible and equipped with all modern amenities to ensure a comfortable experience.
+              </p>
+              <div className="flex items-center text-pink-400">
+                <MapPin className="w-5 h-5 mr-2" />
+                <span>NIT Nagaland, Chumukedima, Nagaland - 797103</span>
+              </div>
+            </div>
+            <div className="w-full md:w-1/2 h-64 bg-gray-700/50 rounded-xl overflow-hidden">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3598.9939552335525!2d93.7887753150152!3d25.59203598370041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3749251e9f0a1b1d%3A0x9b2c1c8f1c8f1c8f!2sNIT%20Nagaland!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                className="opacity-80 hover:opacity-100 transition-opacity"
+              ></iframe>
+            </div>
+          </div>
         </div>
-      </section>
+      </motion.div>
 
-      <div className="pb-32"></div>
+      {/* CTA Section */}
+      <motion.div
+        className="text-center relative overflow-hidden rounded-2xl p-12 bg-black/20 backdrop-blur-sm border border-white/5 hover:bg-black/30 transition-colors duration-300"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+      >
+        
+        <div className="relative z-10">
+          <motion.h2 
+            className="text-4xl md:text-5xl font-bold text-white mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            Ready to be part of <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-300 to-purple-300">Ekarikthin 2025</span>?
+          </motion.h2>
+          
+          <motion.p 
+            className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+          >
+            Join us for an unforgettable experience of cultural celebration, learning, and entertainment.
+          </motion.p>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6 }}
+          >
+            <button className="relative group px-8 py-4 bg-gradient-to-r from-pink-600/90 to-purple-600/90 text-white rounded-full font-medium text-lg overflow-hidden border border-white/20 hover:border-pink-400/60 transition-all duration-300">
+              <div className="absolute inset-0 bg-gradient-to-r from-pink-500/30 to-purple-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative flex items-center">
+                Get Your Tickets Now
+                <Heart className="w-5 h-5 ml-2 group-hover:scale-125 transition-transform" />
+              </span>
+            </button>
+          </motion.div>
+        </div>
+      </motion.div>
+      </div>
     </div>
   );
 };
 
-export default AboutAnime;
+export default About;

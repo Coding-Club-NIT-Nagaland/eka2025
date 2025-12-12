@@ -1,225 +1,244 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send, User, MessageSquare, MailCheck } from "lucide-react";
 import { useState } from "react";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({ 
+    name: "", 
+    email: "", 
+    message: "" 
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((p) => ({ ...p, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+    
+    // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
       setFormData({ name: "", email: "", message: "" });
-      setTimeout(() => setIsSubmitted(false), 5000);
     }, 1500);
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="min-h-screen p-6 md:p-12 relative overflow-hidden text-white"
-    >
-      {/* IIT Techfest Futuristic Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black via-slate-900 to-black opacity-90"></div>
-
-      {/* Grid Lines */}
-      <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#4441_1px,transparent_1px),linear-gradient(to_bottom,#4441_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-
-      {/* Floating Neon Orbs */}
+    <div className="min-h-screen pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <motion.div
-        animate={{ y: [0, -40, 0], opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 6, repeat: Infinity }}
-        className="absolute w-96 h-96 bg-emerald-500/20 blur-3xl rounded-full top-10 left-10"
-      />
-      <motion.div
-        animate={{ y: [0, 30, 0], opacity: [0.4, 0.8, 0.4] }}
-        transition={{ duration: 8, repeat: Infinity }}
-        className="absolute w-80 h-80 bg-blue-600/20 blur-3xl rounded-full bottom-10 right-10"
-      />
-
-      {/* Page Header */}
-      <div className="relative mb-16 text-center">
-        <motion.h1
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="text-5xl md:text-6xl font-bold tracking-wide bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent"
-        >
-          Contact The Team
-        </motion.h1>
-        <p className="text-gray-300 text-lg max-w-2xl mx-auto mt-4">
-          Reach out to the organizing committee of EKARIKTHIN 2025.  
-          We respond within 24 hours.
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="text-center mb-16"
+      >
+        <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-pink-300 to-purple-400 mb-6">
+          Get In Touch
+        </h1>
+        <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+          Have questions or want to get involved? We'd love to hear from you!
         </p>
-      </div>
+      </motion.div>
 
-      {/* Main Grid */}
-      <div className="grid lg:grid-cols-2 gap-10 max-w-7xl mx-auto relative">
-
-        {/* ===== LEFT: CONTACT INFO ===== */}
+      <div className="grid md:grid-cols-2 gap-12">
+        {/* Contact Form */}
         <motion.div
-          initial={{ x: -50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          className="p-10 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-[0_0_40px_rgba(0,255,255,0.15)] relative overflow-hidden"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-8 rounded-2xl border border-gray-700/50 backdrop-blur-sm"
         >
-          {/* Neon Top Border */}
-          <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-cyan-400 to-blue-500"></div>
-
-          <h2 className="text-3xl font-semibold mb-10 text-cyan-300">
-            Connect With Us
-          </h2>
-
-          <div className="space-y-8">
-
-            {/* Email */}
+          <h2 className="text-2xl font-semibold text-white mb-6">Send us a message</h2>
+          
+          {isSubmitted ? (
             <motion.div
-              whileHover={{ x: 8 }}
-              className="flex gap-5 items-start"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-center py-12"
             >
-              <div className="p-4 rounded-xl bg-cyan-600/20 backdrop-blur-lg border border-cyan-500/20">
-                <Mail className="w-7 h-7 text-cyan-300" />
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500/20 rounded-full mb-4">
+                <MailCheck className="w-8 h-8 text-green-400" />
               </div>
-              <div>
-                <h3 className="text-xl font-medium text-gray-200">Email</h3>
-                <p className="text-gray-400 hover:text-white transition">contact@ekarikthin2025.com</p>
-                <p className="text-gray-400 hover:text-white transition">support@ekarikthin2025.com</p>
-              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Message Sent!</h3>
+              <p className="text-gray-400 mb-6">We'll get back to you as soon as possible.</p>
+              <button
+                onClick={() => setIsSubmitted(false)}
+                className="px-6 py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full text-sm font-medium hover:opacity-90 transition-all"
+              >
+                Send another message
+              </button>
             </motion.div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
+                  Your Name
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <User className="h-5 w-5 text-gray-500" />
+                  </div>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="bg-gray-800/50 border border-gray-700 text-white text-sm rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent block w-full pl-10 p-3 placeholder-gray-500"
+                    placeholder="John Doe"
+                  />
+                </div>
+              </div>
 
-            {/* Phone */}
-            <motion.div whileHover={{ x: 8 }} className="flex gap-5 items-start">
-              <div className="p-4 rounded-xl bg-blue-600/20 backdrop-blur-lg border border-blue-500/20">
-                <Phone className="w-7 h-7 text-blue-300" />
-              </div>
               <div>
-                <h3 className="text-xl font-medium text-gray-200">Phone</h3>
-                <p className="text-gray-400 hover:text-white transition">+91 98765 43210</p>
-                <p className="text-gray-400 hover:text-white transition">+91 98765 43211</p>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Mail className="h-5 w-5 text-gray-500" />
+                  </div>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="bg-gray-800/50 border border-gray-700 text-white text-sm rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent block w-full pl-10 p-3 placeholder-gray-500"
+                    placeholder="you@example.com"
+                  />
+                </div>
               </div>
-            </motion.div>
 
-            {/* Location */}
-            <motion.div whileHover={{ x: 8 }} className="flex gap-5 items-start">
-              <div className="p-4 rounded-xl bg-emerald-600/20 backdrop-blur-lg border border-emerald-500/20">
-                <MapPin className="w-7 h-7 text-emerald-300" />
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">
+                  Your Message
+                </label>
+                <div className="relative">
+                  <div className="absolute top-3 left-3">
+                    <MessageSquare className="h-5 w-5 text-gray-500" />
+                  </div>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="5"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    className="bg-gray-800/50 border border-gray-700 text-white text-sm rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent block w-full pl-10 p-3 placeholder-gray-500"
+                    placeholder="How can we help you?"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`w-full flex items-center justify-center px-6 py-3 rounded-full font-medium text-white bg-gradient-to-r from-pink-500 to-purple-600 hover:opacity-90 transition-all ${
+                  isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                }`}
+              >
+                {isSubmitting ? (
+                  'Sending...'
+                ) : (
+                  <>
+                    <Send className="w-5 h-5 mr-2" />
+                    Send Message
+                  </>
+                )}
+              </button>
+            </form>
+          )}
+        </motion.div>
+
+        {/* Contact Info */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="space-y-8"
+        >
+          <div>
+            <h2 className="text-2xl font-semibold text-white mb-6">Contact Information</h2>
+            <p className="text-gray-400 mb-8">
+              Have questions about events, participation, or anything else? Reach out to us through any of the channels below.
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            <div className="flex items-start space-x-4">
+              <div className="flex-shrink-0 p-3 bg-gradient-to-br from-pink-500/20 to-purple-600/20 rounded-lg">
+                <Mail className="h-6 w-6 text-pink-400" />
               </div>
               <div>
-                <h3 className="text-xl font-medium text-gray-200">Address</h3>
-                <p className="text-gray-400 hover:text-white transition">NIT Nagaland</p>
-                <p className="text-gray-400 hover:text-white transition">Chumukedima, Dimapur, 797103</p>
+                <h3 className="text-lg font-medium text-white">Email Us</h3>
+                <a 
+                  href="mailto:contact@ekarikthin.com" 
+                  className="text-pink-400 hover:text-pink-300 transition-colors"
+                >
+                  contact@ekarikthin.com
+                </a>
               </div>
-            </motion.div>
+            </div>
+
+            <div className="flex items-start space-x-4">
+              <div className="flex-shrink-0 p-3 bg-gradient-to-br from-pink-500/20 to-purple-600/20 rounded-lg">
+                <Phone className="h-6 w-6 text-blue-400" />
+              </div>
+              <div>
+                <h3 className="text-lg font-medium text-white">Call Us</h3>
+                <a 
+                  href="tel:+919876543210" 
+                  className="text-blue-400 hover:text-blue-300 transition-colors"
+                >
+                  +91 98765 43210
+                </a>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-4">
+              <div className="flex-shrink-0 p-3 bg-gradient-to-br from-pink-500/20 to-purple-600/20 rounded-lg">
+                <MapPin className="h-6 w-6 text-yellow-400" />
+              </div>
+              <div>
+                <h3 className="text-lg font-medium text-white">Visit Us</h3>
+                <p className="text-gray-400">
+                  Ekarikthin 2025<br />
+                  Cultural Fest Ground<br />
+                  University Campus<br />
+                  City, State - 123456
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-6 border-t border-gray-800">
+            <h3 className="text-lg font-medium text-white mb-4">Follow Us</h3>
+            <div className="flex space-x-4">
+              {['Instagram', 'Twitter', 'Facebook', 'LinkedIn'].map((social) => (
+                <a
+                  key={social}
+                  href="#"
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-pink-500/20 text-gray-400 hover:text-white transition-colors"
+                  aria-label={social}
+                >
+                  <span className="sr-only">{social}</span>
+                  {social.charAt(0)}
+                </a>
+              ))}
+            </div>
           </div>
         </motion.div>
-
-        {/* ===== RIGHT: CONTACT FORM ===== */}
-        <motion.div
-          initial={{ x: 50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          className="p-10 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-[0_0_40px_rgba(0,255,255,0.15)] relative overflow-hidden"
-        >
-          {/* Neon Border */}
-          <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-blue-400 to-purple-500"></div>
-
-          <h2 className="text-3xl font-semibold mb-10 text-blue-300">
-            Send a Message
-          </h2>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-
-            {/* Name */}
-            <div className="relative">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                name="name"
-                required
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Your Name"
-                className="w-full py-3 pl-12 pr-4 bg-white/10 border border-white/20 rounded-xl text-gray-100 focus:ring-2 focus:ring-cyan-500"
-              />
-            </div>
-
-            {/* Email */}
-            <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="email"
-                name="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Your Email"
-                className="w-full py-3 pl-12 pr-4 bg-white/10 border border-white/20 rounded-xl text-gray-100 focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            {/* Message */}
-            <div className="relative">
-              <MessageSquare className="absolute left-4 top-4 text-gray-400 w-5 h-5" />
-              <textarea
-                name="message"
-                required
-                rows="4"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Type your message..."
-                className="w-full py-3 pl-12 pr-4 bg-white/10 border border-white/20 rounded-xl text-gray-100 focus:ring-2 focus:ring-emerald-500 resize-none"
-              />
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className={`w-full py-3 rounded-xl font-semibold tracking-wide flex items-center justify-center transition-all ${
-                isSubmitting
-                  ? "bg-gray-700 cursor-not-allowed"
-                  : "bg-gradient-to-r from-cyan-500 to-blue-600 hover:shadow-[0_0_20px_rgba(0,255,255,0.5)] hover:-translate-y-1"
-              }`}
-            >
-              {isSubmitting ? (
-                <span className="flex items-center gap-2">
-                  <span className="loader border-t-white"></span>
-                  Sending...
-                </span>
-              ) : (
-                <>
-                  <Send className="w-5 h-5 mr-2" /> Send Message
-                </>
-              )}
-            </button>
-
-            <AnimatePresence>
-              {isSubmitted && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  className="mt-4 p-4 bg-green-900/40 border border-green-500/20 rounded-xl flex items-center gap-3"
-                >
-                  <MailCheck className="w-6 h-6 text-green-400" />
-                  <p className="text-green-300">
-                    Message sent successfully! We'll get back to you soon.
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </form>
-        </motion.div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

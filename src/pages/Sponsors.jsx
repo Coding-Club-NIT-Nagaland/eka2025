@@ -1,0 +1,342 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Star } from 'lucide-react';
+
+// Cinematic Background Component
+const CinematicBackground = () => {
+  return (
+    <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none">
+      {/* MAIN DARK GRADIENT */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-[#0b1220] to-black" />
+
+      {/* VOLUMETRIC FOG */}
+      <motion.div
+        className="absolute inset-0 opacity-40 mix-blend-screen"
+        animate={{ opacity: [0.25, 0.4, 0.25] }}
+        transition={{ duration: 12, repeat: Infinity }}
+      >
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30" />
+      </motion.div>
+
+      {/* TWINKLING STARS */}
+      {[...Array(20)].map((_, i) => {
+        const size = Math.random() * 2 + 1;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 5;
+        const duration = 2 + Math.random() * 3;
+        
+        return (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-white"
+            style={{
+              width: `${size}px`,
+              height: `${size}px`,
+              left: `${posX}%`,
+              top: `${posY}%`,
+              boxShadow: '0 0 10px 2px rgba(255, 255, 255, 0.8)',
+            }}
+            animate={{
+              opacity: [0.3, 1, 0.3],
+              scale: [1, 1.5, 1],
+            }}
+            transition={{
+              duration: duration,
+              delay: delay,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
+const Sponsors = () => {
+  // Sponsor data
+  const sponsors = {
+    titleSponsor: [
+      { 
+        id: 1, 
+        name: 'Title Sponsor', 
+        logo: '/sponsors/logo-placeholder.png', 
+        url: '#',
+        tier: 'title'
+      },
+    ],
+    goldSponsors: [
+      { 
+        id: 2, 
+        name: 'Gold Sponsor', 
+        logo: '/sponsors/logo-placeholder.png', 
+        url: '#',
+        tier: 'gold'
+      },
+      { 
+        id: 3, 
+        name: 'Gold Sponsor', 
+        logo: '/sponsors/logo-placeholder.png', 
+        url: '#',
+        tier: 'gold'
+      },
+    ],
+    silverSponsors: [
+      { 
+        id: 4, 
+        name: 'Silver Sponsor', 
+        logo: '/sponsors/logo-placeholder.png', 
+        url: '#',
+        tier: 'silver'
+      },
+      { 
+        id: 5, 
+        name: 'Silver Sponsor', 
+        logo: '/sponsors/logo-placeholder.png', 
+        url: '#',
+        tier: 'silver'
+      },
+      { 
+        id: 6, 
+        name: 'Silver Sponsor', 
+        logo: '/sponsors/logo-placeholder.png', 
+        url: '#',
+        tier: 'silver'
+      },
+    ]
+  };
+
+  // Replace with your actual Google Form URL
+  const sponsorFormUrl = '#';
+
+  const renderSponsorCard = (sponsor) => {
+    let gradient = '';
+    let badgeColor = '';
+    
+    switch(sponsor.tier) {
+      case 'title':
+        gradient = 'from-amber-400/10 to-yellow-500/10';
+        badgeColor = 'from-amber-400 to-yellow-500';
+        break;
+      case 'gold':
+        gradient = 'from-yellow-300/10 to-yellow-600/10';
+        badgeColor = 'from-yellow-400 to-amber-500';
+        break;
+      case 'silver':
+        gradient = 'from-gray-300/10 to-gray-500/10';
+        badgeColor = 'from-gray-300 to-gray-400';
+        break;
+      default:
+        gradient = 'from-cyan-500/10 to-blue-500/10';
+        badgeColor = 'from-cyan-400 to-blue-500';
+    }
+
+    return (
+      <div className={`relative group bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 hover:bg-white/10 transition-all duration-300 hover:shadow-lg hover:shadow-${badgeColor.split(' ')[0].split('-')[1]}-500/20`}>
+        <div className={`absolute inset-0 bg-gradient-to-br ${gradient} rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+        <div className="relative z-10 h-full flex flex-col">
+          <div className="flex-grow flex items-center justify-center mb-4 h-40">
+            <img
+              src={sponsor.logo}
+              alt={sponsor.name}
+              className="max-h-full max-w-full object-contain"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = 'https://via.placeholder.com/300x150/1a1a2e/e6e6e6?text=' + encodeURIComponent(sponsor.name);
+              }}
+            />
+          </div>
+          <div className="mt-auto">
+            <h4 className="text-xl font-bold text-center text-white mb-2">{sponsor.name}</h4>
+            <div className="flex justify-center">
+              <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r ${badgeColor} text-white`}>
+                <Star className="w-3 h-3 mr-1" />
+                {sponsor.tier.charAt(0).toUpperCase() + sponsor.tier.slice(1)} Tier
+              </span>
+            </div>
+          </div>
+        </div>
+        {sponsor.url && (
+          <a
+            href={sponsor.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute inset-0 z-20"
+            aria-label={`Visit ${sponsor.name} website`}
+          />
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div className="min-h-screen text-white">
+      <CinematicBackground />
+      
+      {/* Hero Section */}
+      <section className="relative z-10 pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <motion.h1 
+            className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            Our Sponsors
+          </motion.h1>
+          <motion.p 
+            className="text-xl text-gray-300 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            We're grateful to our amazing sponsors for their generous support in making Ekarikthin 2025 possible.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Sponsors Grid */}
+      <section className="relative z-10 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Title Sponsor */}
+          {sponsors.titleSponsor.length > 0 && (
+            <div className="mb-20">
+              <motion.h3 
+                className="text-3xl md:text-4xl font-bold mb-12 text-center bg-gradient-to-r from-amber-300 to-yellow-500 bg-clip-text text-transparent"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+              >
+                Title Sponsor
+              </motion.h3>
+              <div className="grid grid-cols-1 gap-8 max-w-3xl mx-auto">
+                {sponsors.titleSponsor.map((sponsor, index) => (
+                  <motion.div
+                    key={sponsor.id}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    {renderSponsorCard(sponsor)}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Gold Sponsors */}
+          {sponsors.goldSponsors.length > 0 && (
+            <div className="mb-20">
+              <motion.h3 
+                className="text-2xl md:text-3xl font-bold mb-10 text-center bg-gradient-to-r from-yellow-300 to-amber-500 bg-clip-text text-transparent"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+              >
+                Gold Sponsors
+              </motion.h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                {sponsors.goldSponsors.map((sponsor, index) => (
+                  <motion.div
+                    key={sponsor.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    {renderSponsorCard(sponsor)}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Silver Sponsors */}
+          {sponsors.silverSponsors.length > 0 && (
+            <div className="mb-16">
+              <motion.h3 
+                className="text-xl md:text-2xl font-bold mb-8 text-center bg-gradient-to-r from-gray-300 to-gray-400 bg-clip-text text-transparent"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+              >
+                Silver Sponsors
+              </motion.h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                {sponsors.silverSponsors.map((sponsor, index) => (
+                  <motion.div
+                    key={sponsor.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-30px" }}
+                    transition={{ duration: 0.5, delay: index * 0.05 }}
+                  >
+                    {renderSponsorCard(sponsor)}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="relative z-10 py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            className="relative"
+          >
+            <div className="absolute -inset-1 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-lg blur opacity-20 group-hover:opacity-30 transition duration-300"></div>
+            <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl p-8 md:p-10 border border-white/10">
+              <motion.h2 
+                className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-amber-300 to-yellow-500 bg-clip-text text-transparent"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+              >
+                Want to be a part of Ekarikthin 2025?
+              </motion.h2>
+              <motion.p 
+                className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+              >
+                Join our prestigious list of sponsors and showcase your brand to thousands of attendees at the biggest cultural fest of the year.
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-block"
+              >
+                <a
+                  href={sponsorFormUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative inline-flex items-center justify-center px-8 py-4 overflow-hidden text-lg font-bold text-amber-900 rounded-xl bg-gradient-to-r from-amber-300 to-yellow-400 hover:from-amber-400 hover:to-yellow-500 transition-all duration-300 shadow-lg shadow-amber-500/20"
+                >
+                  <span className="relative z-10">Become a Sponsor</span>
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-amber-400 to-yellow-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                </a>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Sponsors;

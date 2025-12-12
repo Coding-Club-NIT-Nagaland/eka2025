@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Calendar, Mail, Info, Sparkles, Award, Users, Moon, Sun } from 'lucide-react';
+import { Home, Calendar, Mail, Info, Sparkles, Award, Users, Moon, Sun, Heart } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 // Fun emoji decorations
@@ -56,6 +56,7 @@ const Navbar = () => {
     { name: 'Gallery', icon: Award, path: '/gallery' },
     { name: 'Team', icon: Users, path: '/team' },
     { name: 'Playground', icon: Award, path: '/playground' },
+    { name: 'Sponsors', icon: Heart, path: '/sponsors' },
     { name: 'About', icon: Info, path: '/about' },
     { name: 'Contact', icon: Mail, path: '/contact' }
   ];
