@@ -28,11 +28,12 @@ const SplashScreen = ({ onComplete }) => {
             transition={{ duration: 0.5 }}
             className="text-center"
           >
-            {/* Replace with your logo */}
-            <div className="w-64 h-64 bg-white/10 backdrop-blur-lg rounded-3xl flex items-center justify-center mx-auto">
-              <span className="text-4xl font-bold bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent">
-                EKARIKTHIN
-              </span>
+            <div className="w-700 h-auto flex items-center justify-center mx-auto">
+              <img 
+                src="assests/ekarikthin.png" 
+                alt="Ekarikthin Logo"
+                className="w-full h-auto max-h-64 object-contain"
+              />
             </div>
             <motion.h1 
               className="mt-6 text-4xl font-bold bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent"
@@ -40,7 +41,7 @@ const SplashScreen = ({ onComplete }) => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              Ekarikthin 2025
+              Ekarikthin 2026
             </motion.h1>
             <motion.p 
               className="mt-2 text-gray-400"

@@ -6,9 +6,9 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
    DATA
 ============================================ */
 const images = [
-  { id: 1, src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&w=1200", title: "Cultural Performance", category: "cultural" },
-  { id: 2, src: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&w=1200", title: "Battle of Bands", category: "music" },
-  { id: 3, src: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&w=1200", title: "Dance Competition", category: "dance" },
+  { id: 1, src: "assests/1.webp", title: "Admin Building", category: "College" },
+  { id: 2, src: "assests/2.jpg", title: "Battle of Bands", category: "music" },
+  { id: 3, src: "assests/3.png", title: "Dance Competition", category: "dance" },
   { id: 4, src: "https://images.unsplash.com/photo-1558981033-0fcbf4e3e1c0?auto=format&w=1200", title: "Drama & Mime", category: "theatre" },
   { id: 5, src: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&w=1200", title: "Literary Event", category: "literary" },
   { id: 6, src: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&w=1200", title: "Workshop Session", category: "workshop" },

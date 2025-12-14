@@ -321,7 +321,7 @@ const Sponsors = () => {
                 className="inline-block"
               >
                 <a
-                  href={sponsorFormUrl}
+                  href="https://forms.gle/U4yETMcXQsQbQ71V6"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative inline-flex items-center justify-center px-8 py-4 overflow-hidden text-lg font-bold text-amber-900 rounded-xl bg-gradient-to-r from-amber-300 to-yellow-400 hover:from-amber-400 hover:to-yellow-500 transition-all duration-300 shadow-lg shadow-amber-500/20"
