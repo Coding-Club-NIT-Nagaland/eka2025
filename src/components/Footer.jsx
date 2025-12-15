@@ -38,7 +38,7 @@ const Footer = () => {
 
   return (
     <motion.footer
-      className="w-full bg-gray-900/90 backdrop-blur-sm border-t border-white/5"
+      className="w-full bg-gray-900/90 backdrop-blur-sm border-t border-white/5 mt-auto"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}

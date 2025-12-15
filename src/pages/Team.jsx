@@ -27,6 +27,66 @@ const team = [
     image: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800",
     bio: "Crafts content, manages PR, partnerships & promotions.",
   },
+  {
+    name: "Aarav Sharma",
+    role: "Event Lead",
+    image: "https://images.unsplash.com/photo-1603415526960-f7e0328a1f06?q=80&w=800",
+    bio: "Oversees the entire fest flow — planning, coordination, logistics & execution.",
+  },
+  {
+    name: "Aarav Sharma",
+    role: "Event Lead",
+    image: "https://images.unsplash.com/photo-1603415526960-f7e0328a1f06?q=80&w=800",
+    bio: "Oversees the entire fest flow — planning, coordination, logistics & execution.",
+  },
+  {
+    name: "Aarav Sharma",
+    role: "Event Lead",
+    image: "https://images.unsplash.com/photo-1603415526960-f7e0328a1f06?q=80&w=800",
+    bio: "Oversees the entire fest flow — planning, coordination, logistics & execution.",
+  },
+  {
+    name: "Aarav Sharma",
+    role: "Event Lead",
+    image: "https://images.unsplash.com/photo-1603415526960-f7e0328a1f06?q=80&w=800",
+    bio: "Oversees the entire fest flow — planning, coordination, logistics & execution.",
+  },
+  {
+    name: "Aarav Sharma",
+    role: "Event Lead",
+    image: "https://images.unsplash.com/photo-1603415526960-f7e0328a1f06?q=80&w=800",
+    bio: "Oversees the entire fest flow — planning, coordination, logistics & execution.",
+  },
+  {
+    name: "Aarav Sharma",
+    role: "Event Lead",
+    image: "https://images.unsplash.com/photo-1603415526960-f7e0328a1f06?q=80&w=800",
+    bio: "Oversees the entire fest flow — planning, coordination, logistics & execution.",
+  },
+  {
+    name: "Aarav Sharma",
+    role: "Event Lead",
+    image: "https://images.unsplash.com/photo-1603415526960-f7e0328a1f06?q=80&w=800",
+    bio: "Oversees the entire fest flow — planning, coordination, logistics & execution.",
+  },
+  {
+    name: "Aarav Sharma",
+    role: "Event Lead",
+    image: "https://images.unsplash.com/photo-1603415526960-f7e0328a1f06?q=80&w=800",
+    bio: "Oversees the entire fest flow — planning, coordination, logistics & execution.",
+  },
+  {
+    name: "Aarav Sharma",
+    role: "Event Lead",
+    image: "https://images.unsplash.com/photo-1603415526960-f7e0328a1f06?q=80&w=800",
+    bio: "Oversees the entire fest flow — planning, coordination, logistics & execution.",
+  },
+  {
+    name: "Aarav Sharma",
+    role: "Event Lead",
+    image: "https://images.unsplash.com/photo-1603415526960-f7e0328a1f06?q=80&w=800",
+    bio: "Oversees the entire fest flow — planning, coordination, logistics & execution.",
+  },
 ];
 
 const CreativeTeam = () => {

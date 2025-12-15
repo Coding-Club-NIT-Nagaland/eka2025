@@ -160,7 +160,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
           >
             <Sparkles className="w-4 h-4 text-cyan-300" />
-            <span>Ekarikthin 2025 • The Grand Cultural Festival</span>
+            <span>Ekarikthin 2026 • The Grand Cultural Festival</span>
           </motion.div>
 
           {/* HERO TITLE */}
@@ -218,14 +218,16 @@ export default function Home() {
         {/* ================= SINGLE LOGO SHOWCASE ================= */}
         <section className="py-28 relative z-10 text-center">
           <h2 className="text-5xl font-extrabold text-cyan-300 mb-10 drop-shadow-lg">Festival Logo</h2>
-
           <motion.div
-            className="mx-auto w-[300px] h-[300px] bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 shadow-[0_0_40px_rgba(0,200,255,0.4)] flex items-center justify-center overflow-hidden"
             initial={{ scale: 0.8, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8 }}
           >
-            <img src="/yourLogo.png" alt="Event Logo" className="object-contain p-6" />
+            <img
+              src="assests/ekarikthin.png"
+              alt="Event Logo"
+              className="mx-auto max-w-[300px] object-contain"
+            />
           </motion.div>
         </section>
 

@@ -12,6 +12,8 @@ import FloatingIcons from './components/FloatingIcons';
 // Main Pages
 import Home from './pages/Home';
 import Events from './pages/Events';
+import EventRegistration from './pages/EventRegistration';
+import RegistrationSuccess from './pages/RegistrationSuccess';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import Highlights from './pages/Highlights';
@@ -59,7 +61,7 @@ function AppContent() {
   }, [location.pathname]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-transparent">
+    <div className="min-h-screen flex flex-col bg-transparent">
       {/* Background components - Only show on non-admin routes */}
       {!location.pathname.startsWith('/admin') && (
         <>
@@ -75,47 +77,54 @@ function AppContent() {
         )}
 
         {/* Main content */}
-        <main className={`flex-1 ${!location.pathname.startsWith('/admin') ? 'pt-20' : ''}`}>
-          <AnimatePresence mode="wait">
-            <Routes location={location} key={location.pathname}>
-              {/* Public Routes */}
-              <Route path="/" element={<Home />} />
-              <Route path="/events" element={<Events />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/highlights" element={<Highlights />} />
-              <Route path="/gallery" element={<Gallery />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/playground" element={<Playground />} />
-              <Route path="/sponsors" element={<Sponsors />} />
-              {/* Admin Routes */}
-              {/* Admin Auth Routes */}
-              <Route path="/admin/login" element={
-                isAuthenticated ? 
-                <Navigate to="/admin/dashboard" replace /> : 
-                <AdminLogin onLogin={() => setIsAuthenticated(true)} />
-              } />
+        <main className={`flex-1 w-full ${!location.pathname.startsWith('/admin') ? 'pt-20' : ''}`}>
+          <div className="min-h-[calc(100vh-200px)]">
+            <AnimatePresence mode="wait">
+              <Routes location={location} key={location.pathname}>
+                {/* Public Routes */}
+                <Route path="/" element={<Home />} />
+                <Route path="/events" element={<Events />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/highlights" element={<Highlights />} />
+                <Route path="/gallery" element={<Gallery />} />
+                <Route path="/team" element={<Team />} />
+                <Route path="/playground" element={<Playground />} />
+                <Route path="/sponsors" element={<Sponsors />} />
+                
+                {/* Event Registration Routes */}
+                <Route path="/events/register" element={<EventRegistration />} />
+                <Route path="/registration/success" element={<RegistrationSuccess />} />
+              
+                {/* Admin Routes */}
+                {/* Admin Auth Routes */}
+                <Route path="/admin/login" element={
+                  isAuthenticated ? 
+                  <Navigate to="/admin/dashboard" replace /> : 
+                  <AdminLogin onLogin={() => setIsAuthenticated(true)} />
+                } />
 
-              {/* Protected Admin Routes */}
-              <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
-                <Route path="/admin" element={<AdminLayout />}>
-                  <Route index element={<Navigate to="dashboard" replace />} />
-                  <Route path="dashboard" element={<Dashboard />} />
-                  <Route path="events" element={<AdminEvents />} />
-                  <Route path="members" element={<AdminMembers />} />
-                  <Route path="schedules" element={<AdminSchedules />} />
+                {/* Protected Admin Routes */}
+                <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
+                  <Route element={<AdminLayout />}>
+                    <Route path="/admin/dashboard" element={<Dashboard />} />
+                    <Route path="/admin/events" element={<AdminEvents />} />
+                    <Route path="/admin/members" element={<AdminMembers />} />
+                    <Route path="/admin/schedules" element={<AdminSchedules />} />
+                  </Route>
                 </Route>
-              </Route>
 
-              {/* 404 Route - Keep this at the bottom */}
-            </Routes>
-          </AnimatePresence>
+                {/* 404 Route - Keep this last */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </AnimatePresence>
+          </div>
+
+          {/* Footer - Only show on non-admin routes */}
+          {!location.pathname.startsWith('/admin') && <Footer />}
         </main>
       </div>
       
-      {/* Footer - now properly positioned at the bottom */}
-      <Footer />
-
       {/* Toast */}
       <Toaster 
         position="top-center"

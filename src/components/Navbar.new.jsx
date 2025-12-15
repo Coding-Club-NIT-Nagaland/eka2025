@@ -77,7 +77,7 @@ const Navbar = ({ isMenuOpen, onMenuToggle }) => {
                     transition: { duration: 1, repeat: Infinity, repeatType: 'reverse' }
                   }}
                 >
-                  <span className="text-yellow-200 animate-bounce inline-block">🎪</span> Ekarikthin 2025 <span className="text-pink-200 animate-pulse inline-block">✨</span>
+                  <span className="text-yellow-300 animate-bounce inline-block">🎪</span> Ekarikthin 2026 <span className="text-pink-200 animate-pulse inline-block">✨</span>
                 </motion.span>
                 <motion.span 
                   className="absolute -bottom-1 left-0 right-0 h-1 bg-yellow-200 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"

@@ -12,28 +12,15 @@ const Navbar = () => {
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navRef = useRef(null);
+  const menuRef = useRef(null);
   
   // Close mobile menu when route changes
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  const navItems = [
-    { name: 'Home', icon: Home, path: '/' },
-    { name: 'Events', icon: Calendar, path: '/events' },
-    { name: 'Highlights', icon: Sparkles, path: '/highlights' },
-    { name: 'Gallery', icon: Award, path: '/gallery' },
-    { name: 'Team', icon: Users, path: '/team' },
-    { name: 'Playground', icon: Award, path: '/playground' },
-    { name: 'Sponsors', icon: Heart, path: '/sponsors' },
-    { name: 'About', icon: Info, path: '/about' },
-    { name: 'Contact', icon: Mail, path: '/contact' }
-  ];
-
-  // Close menu when clicking outside or when route changes
-  const navRef = useRef(null);
-  const menuRef = useRef(null);
-  
+  // Close menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target) && 
@@ -52,9 +39,21 @@ const Navbar = () => {
     };
   }, []);
 
+  const navItems = [
+    { name: 'Home', icon: Home, path: '/' },
+    { name: 'Events', icon: Calendar, path: '/events' },
+    { name: 'Highlights', icon: Sparkles, path: '/highlights' },
+    { name: 'Gallery', icon: Award, path: '/gallery' },
+    { name: 'Team', icon: Users, path: '/team' },
+    { name: 'Playground', icon: Award, path: '/playground' },
+    { name: 'Sponsors', icon: Heart, path: '/sponsors' },
+    { name: 'About', icon: Info, path: '/about' },
+    { name: 'Contact', icon: Mail, path: '/contact' }
+  ];
+
   return (
     <>
-      {/* Main Navigation */}
+      {/* Main Navbar */}
       <motion.nav
         ref={navRef}
         className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-sm md:bg-transparent"
@@ -63,29 +62,25 @@ const Navbar = () => {
         transition={{ duration: 0.5, type: "spring", bounce: 0.3 }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-20 items-center">
+          <div className="flex justify-between h-16 items-center">
             {/* Logo */}
             <motion.div
               className="flex items-center group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Link to="/" className="flex items-center mt-10">
-                <motion.span 
-                  className="text-2xl font-extrabold bg-gradient-to-r from-yellow-200 via-pink-300 to-purple-300 bg-clip-text text-transparent drop-shadow-lg"
-                  whileHover={{ 
-                    textShadow: ['0 0 10px rgba(253, 224, 71, 0.5)', '0 0 20px rgba(236, 72, 153, 0.7)', '0 0 10px rgba(253, 224, 71, 0.5)'],
-                    transition: { duration: 1, repeat: Infinity, repeatType: 'reverse' }
-                  }}
-                >
-                  <span className="text-yellow-300 animate-bounce inline-block">🎪</span>Ekarikthin 2026<span className="text-pink-200 animate-pulse inline-block">✨</span>
+              <Link to="/" className="flex items-center">
+                <motion.span className="text-2xl font-extrabold bg-gradient-to-r from-yellow-200 via-pink-300 to-purple-300 bg-clip-text text-transparent">
+                  <span className="text-yellow-200 animate-bounce inline-block">🎪</span>
+                  Ekarikthin 2025
+                  <span className="text-pink-200 animate-pulse inline-block">✨</span>
                 </motion.span>
               </Link>
             </motion.div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex md:items-center md:space-x-1">
-              {navItems.map((item) => {
+              {navItems.map((item, index) => {
                 const isActive = location.pathname === item.path;
                 return (
                   <motion.div 
@@ -148,7 +143,7 @@ const Navbar = () => {
               >
                 <motion.span
                   className="block relative w-6 h-6"
-                  animate={isMobileMenuOpen ? { rotate: 90 } : { rotate: 0 }}
+                  animate={isMobileMenuOpen ? { rotate: 180 } : { rotate: 0 }}
                   transition={{ duration: 0.3 }}
                 >
                   {isMobileMenuOpen ? (
@@ -203,7 +198,7 @@ const Navbar = () => {
                   </div>
                 </div>
                 
-                <nav className="flex-1 overflow-y-auto p-6 space-y-4">
+                <nav className="flex-1 overflow-y-auto p-6 space-y-2">
                   {navItems.map((item) => {
                     const isActive = location.pathname === item.path;
                     return (
@@ -230,7 +225,7 @@ const Navbar = () => {
                 
                 <div className="p-6 border-t border-white/10">
                   <div className="text-center text-sm text-gray-400">
-                    <p>Ekarikthin 2026</p>
+                    <p>Ekarikthin 2025</p>
                     <p className="mt-1">Celebrating Creativity & Innovation</p>
                   </div>
                 </div>
