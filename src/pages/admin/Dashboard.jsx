@@ -17,6 +17,8 @@ import {
   FileText,
   Hash,
   Calendar as CalendarIcon,
+  Trash2,
+  AlertOctagon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -35,6 +37,10 @@ const Dashboard = () => {
   const [selectedRegistration, setSelectedRegistration] = useState(null);
   const [verificationUTR, setVerificationUTR] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
+  const [deleteError, setDeleteError] = useState('');
 
   /* ---------------- Fetch Data ---------------- */
   useEffect(() => {
@@ -151,6 +157,40 @@ const Dashboard = () => {
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
+  };
+
+  const handleDelete = async () => {
+    if (deleteConfirmText !== 'DELETE') {
+      setDeleteError('Please type \"DELETE\" to confirm');
+      return;
+    }
+
+    setIsDeleting(true);
+    setDeleteError('');
+
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Update records
+      const updatedRecords = records.filter(
+        r => r !== selectedRegistration
+      );
+      setRecords(updatedRecords);
+      
+      // Close modals and reset states
+      setSelectedRegistration(null);
+      setShowDeleteConfirm(false);
+      setDeleteConfirmText('');
+      
+      // Show success message (you can replace this with a toast notification)
+      alert('Registration deleted successfully');
+    } catch (error) {
+      setDeleteError('Failed to delete registration. Please try again.');
+      console.error('Delete error:', error);
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   /* ---------------- UI ---------------- */
@@ -315,9 +355,19 @@ const Dashboard = () => {
                   ))}
 
                   <div className="pt-4 border-t border-gray-700">
-                    <div className="flex items-center mb-2">
-                      <Hash className="w-5 h-5 text-cyan-400 mr-2" />
-                      <span className="font-medium">Payment Status</span>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center">
+                        <Hash className="w-5 h-5 text-cyan-400 mr-2" />
+                        <span className="font-medium">Payment Status</span>
+                      </div>
+                      <button
+                        onClick={() => setShowDeleteConfirm(true)}
+                        className="flex items-center px-3 py-1.5 text-sm bg-red-900/30 hover:bg-red-900/50 text-red-400 rounded-lg border border-red-800/50 transition-colors"
+                        title="Delete this registration"
+                      >
+                        <Trash2 className="w-4 h-4 mr-1" />
+                        Delete
+                      </button>
                       {selectedRegistration["UTR / Transaction ID"] ? (
                         <span className="ml-2 px-2 py-1 text-xs bg-green-900/30 text-green-400 rounded-full flex items-center">
                           <Check className="w-3 h-3 mr-1" />
@@ -384,6 +434,90 @@ const Dashboard = () => {
                       </div>
                     )}
                   </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {showDeleteConfirm && (
+          <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="bg-gray-800 rounded-xl border border-red-900/50 w-full max-w-md p-6"
+            >
+              <div className="flex items-start mb-4">
+                <div className="p-2 bg-red-900/30 rounded-lg text-red-500 mr-3">
+                  <AlertOctagon className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white">Delete Registration</h3>
+                  <p className="text-gray-300 text-sm mt-1">
+                    This action cannot be undone. This will permanently delete the registration for 
+                    <span className="font-medium text-white"> {selectedRegistration?.Name}</span>.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                    Type <span className="text-red-400">DELETE</span> to confirm:
+                  </label>
+                  <input
+                    type="text"
+                    value={deleteConfirmText}
+                    onChange={(e) => {
+                      setDeleteConfirmText(e.target.value);
+                      if (deleteError) setDeleteError('');
+                    }}
+                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    placeholder="Type DELETE to confirm"
+                    autoFocus
+                  />
+                  {deleteError && (
+                    <p className="mt-1 text-sm text-red-400">{deleteError}</p>
+                  )}
+                </div>
+
+                <div className="flex justify-end gap-3 pt-2">
+                  <button
+                    onClick={() => {
+                      setShowDeleteConfirm(false);
+                      setDeleteConfirmText('');
+                      setDeleteError('');
+                    }}
+                    className="px-4 py-2 text-sm bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+                    disabled={isDeleting}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    disabled={isDeleting || deleteConfirmText !== 'DELETE'}
+                    className={`px-4 py-2 text-sm rounded-lg flex items-center ${
+                      isDeleting || deleteConfirmText !== 'DELETE'
+                        ? 'bg-red-900/50 text-red-400 cursor-not-allowed'
+                        : 'bg-red-600 hover:bg-red-500 text-white'
+                    }`}
+                  >
+                    {isDeleting ? (
+                      <>
+                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Deleting...
+                      </>
+                    ) : (
+                      'Delete Permanently'
+                    )}
+                  </button>
                 </div>
               </div>
             </motion.div>
