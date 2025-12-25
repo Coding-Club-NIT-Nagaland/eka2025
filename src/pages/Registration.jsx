@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { CheckCircle, AlertCircle, ArrowLeft, Printer } from "lucide-react";
-import { Link, useSearchParams } from "react-router-dom";
+import { CheckCircle, AlertCircle, ArrowLeft, Printer, Copy } from "lucide-react";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
+import { generateUserId } from "../utils/generateId";
 
 const Registration = () => {
   const [searchParams] = useSearchParams();
@@ -14,6 +15,7 @@ const Registration = () => {
     college: "",
     event: "",
     utrNumber: "",
+    userId: generateUserId(), // Generate unique ID when component mounts
   });
   
   // Map of event IDs to event names
@@ -95,6 +97,9 @@ const Registration = () => {
       if (formData.event) {
         formDataToSend.append("entry.82158280", formData.event);
       }
+
+      // Add user ID to form submission
+      formDataToSend.append("entry.1565644006", formData.userId); // Replace with your actual Google Form field ID
 
       await fetch(GOOGLE_FORM_URL, {
         method: "POST",
@@ -179,13 +184,34 @@ const Registration = () => {
             <p className="text-gray-400">Registration Confirmation</p>
           </div>
           
-          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-6" />
-          <h2 className="text-2xl font-bold text-cyan-300 mb-2">
-            Registration Successful!
-          </h2>
-          <p className="text-gray-300 mb-6">
-            Thank you for registering for Ekarikthin 2026. Your registration has been recorded successfully.
-          </p>
+          <div className="text-center mb-6">
+            <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-cyan-300 mb-2">
+              Registration Successful!
+            </h2>
+            <p className="text-gray-300 mb-4">
+              Thank you for registering for Ekarikthin 2026. Your registration has been recorded successfully.
+            </p>
+            
+            <div className="bg-gray-800/50 p-4 rounded-lg border border-gray-700 max-w-md mx-auto">
+              <p className="text-sm text-gray-400 mb-1">Your Registration ID:</p>
+              <div className="flex items-center justify-between bg-black/30 p-3 rounded-lg">
+                <code className="text-lg font-mono text-yellow-400">{formData.userId}</code>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(formData.userId);
+                    // You can add a toast notification here if you have one
+                    alert('Registration ID copied to clipboard!');
+                  }}
+                  className="text-gray-400 hover:text-white p-1 rounded hover:bg-gray-700"
+                  title="Copy to clipboard"
+                >
+                  <Copy size={18} />
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 mt-2">Please save this ID for future reference</p>
+            </div>
+          </div>
           
           {/* Registration Details */}
           <div className="bg-black/30 p-6 rounded-xl text-left mb-6">
@@ -215,7 +241,11 @@ const Registration = () => {
                 <p className="text-gray-400 text-sm">UTR/Transaction ID</p>
                 <p className="text-white font-mono">{formData.utrNumber}</p>
               </div>
-              <div className="col-span-full">
+              <div>
+                <p className="text-gray-400 text-sm">Registration ID</p>
+                <p className="text-white font-mono text-sm">{formData.userId}</p>
+              </div>
+              <div>
                 <p className="text-gray-400 text-sm">Registration Date & Time</p>
                 <p className="text-white">{registrationDate}</p>
               </div>
