@@ -74,7 +74,7 @@ const generalSecretary = {
 const technicalSecretaries = [
   {
     name: "Hrishabh Raj",
-    role: "Technical Secretary",
+    role: "Technical Secretary and Lead Website Developer",
     image: "https://images.unsplash.com/photo-1554151228-14d9def656e4?q=80&w=800",
     bio: "Manages technical operations and implementations.",
   },
@@ -167,6 +167,34 @@ const disciplinarySecretaries = [
     role: "Disciplinary Secretary",
     image: "https://images.unsplash.com/photo-1531123895809-8103797704ed?q=80&w=800",
     bio: "Maintains discipline and enforces hostel rules for girls.",
+  }
+];
+
+// Fermetrix Lab Team
+const fermetrixLabTeam = [
+  {
+    name: "Dr. Sarah Johnson",
+    role: "Director of Research",
+    image: "https://randomuser.me/api/portraits/women/1.jpg",
+    bio: "Leading research initiatives and guiding the scientific direction of Fermetrix Lab."
+  },
+  {
+    name: "Dr. Michael Chen",
+    role: "Lead Biotechnologist",
+    image: "https://randomuser.me/api/portraits/men/1.jpg",
+    bio: "Pioneering biotechnological innovations and research at Fermetrix Lab."
+  },
+  {
+    name: "Dr. Emily Rodriguez",
+    role: "Senior Data Scientist",
+    image: "https://randomuser.me/api/portraits/women/2.jpg",
+    bio: "Driving data-driven insights and machine learning applications in our research."
+  },
+  {
+    name: "Dr. James Wilson",
+    role: "Quantum Computing Lead",
+    image: "https://randomuser.me/api/portraits/men/2.jpg",
+    bio: "Exploring the frontiers of quantum computing and its applications."
   }
 ];
 
@@ -302,12 +330,19 @@ const Team = () => {
         {secretaryGroups.map((group, groupIndex) => (
           <div key={groupIndex} className="mb-16">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-cyan-300 mb-2">{group.title}</h2>
+              <h2 className="text-3xl font-bold text-cyan-300 mb-2">
+                {group.title}
+                {group.title === "Fermetrix Lab Team" && (
+                  <span className="ml-2 text-sm bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-3 py-1 rounded-full">
+                    New
+                  </span>
+                )}
+              </h2>
               <p className="text-gray-400 max-w-2xl mx-auto">{group.description}</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto px-6 w-full">
+            <div className={`grid ${group.title === "Fermetrix Lab Team" ? 'md:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1 sm:grid-cols-2'} gap-8 max-w-6xl mx-auto px-6 w-full`}>
               {group.members.map((member, index) => (
-                <div key={index} className="w-full sm:w-auto">
+                <div key={index} className={`w-full ${group.title === "Fermetrix Lab Team" ? 'max-w-xs mx-auto' : 'sm:w-auto'}`}>
                   <HoverTeamCard
                     member={member}
                     onClick={() => setSelected(member)}
@@ -366,6 +401,21 @@ const Team = () => {
           </div>
         </div>
       )}
+      </div>
+      {/* Footer */}
+      <div className="mt-24 mb-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="pt-8 border-t border-gray-800">
+            <div className="px-4 py-6 sm:px-6">
+              <p className="text-gray-400 text-center text-sm sm:text-base">
+                Website Developed and Managed by{' '}
+                <span className="text-cyan-400 font-medium hover:text-cyan-300 transition-colors duration-200">
+                  Fermetrix Lab
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

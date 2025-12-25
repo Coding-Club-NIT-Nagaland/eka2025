@@ -224,8 +224,8 @@ const Registration = () => {
 
       // Prepare email template parameters
       const emailData = {
-        service_id: 'service_tl0vu68',
-        template_id: 'template_dfjxflt',
+        service_id: 'service_0b6q16h',
+        template_id: 'template_nwz4kjh',
         user_id: 'FFyoZMeqTVWPiNlqK',
         template_params: {
           to_email: formData.email.trim(),
@@ -617,8 +617,13 @@ const Registration = () => {
                 </div>
                 <p>1. Make payment using the QR code or UPI ID below:</p>
                 <div className="bg-black/30 p-3 rounded-lg">
-                  <p className="font-mono font-bold">tejakondari@ybl</p>
-                  <p className="text-xs text-amber-200">(UPI ID for payments)</p>
+                  <p className="font-mono font-bold">kondari@nyes</p>
+                  <p className="text-xs text-amber-200">(Single UPI ID for all events)</p>
+                  {formData.event && (
+                    <p className="text-sm text-green-300 mt-1">
+                      Pay ₹{getEventPrice()[formData.participantType]} for {formData.event}
+                    </p>
+                  )}
                 </div>
                 <p>2. Enter the UTR/Transaction ID from your payment receipt below</p>
                 <p className="text-xs text-amber-200">
@@ -651,15 +656,36 @@ const Registration = () => {
           {/* PAYMENT */}
           <div className="bg-black/30 p-6 rounded-xl border border-white/10">
             <h3 className="text-xl font-semibold text-cyan-300 mb-4">Payment</h3>
-            <div className="bg-white p-3 rounded-lg inline-block mb-4">
-              <QRCode
-                value={`upi://pay?pa=tejakondari@ybl&pn=Ekarikthin%202026&am=${formData.event ? getEventPrice()[formData.participantType] : '0'}&cu=INR`}
-                size={180}
-              />
+            <div className="flex justify-center mb-4">
+              <div className="bg-white p-6 rounded-lg shadow-lg">
+                <img 
+                  src="/src/assets/teja.png" 
+                  alt="Scan to Pay" 
+                  className="w-64 h-64 object-contain"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    const qrContainer = document.getElementById('dynamic-qr-container');
+                    if (qrContainer) qrContainer.style.display = 'block';
+                  }}
+                />
+              </div>
             </div>
-            <p className="text-gray-400 text-sm">
-              UPI ID: <span className="text-cyan-300 font-mono">tejakondari@ybl</span>
-            </p>
+            <div className="space-y-2">
+              <p className="text-gray-300 text-sm">
+                UPI ID: <span className="text-cyan-300 font-mono">kondari@nyes</span>
+              </p>
+              <p className="text-yellow-300 text-xs">
+                Note: Use this single QR code/UPI ID for all event registrations
+              </p>
+              {formData.event && (
+                <div className="mt-2 p-2 bg-black/30 rounded text-sm">
+                  <p className="text-amber-300">Selected Event: {formData.event}</p>
+                  <p className="text-green-300">
+                    Amount to Pay: ₹{getEventPrice()[formData.participantType]}
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
