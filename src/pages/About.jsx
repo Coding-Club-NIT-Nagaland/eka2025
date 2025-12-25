@@ -26,8 +26,8 @@ const About = () => {
   ];
 
   const stats = [
-    { value: "50+", label: "Events", icon: <Sparkles className="w-6 h-6" /> },
-    { value: "1000+", label: "Participants", icon: <Users className="w-6 h-6" /> },
+    { value: "10+", label: "Events", icon: <Sparkles className="w-6 h-6" /> },
+    { value: "500+", label: "Participants", icon: <Users className="w-6 h-6" /> },
     { value: "3", label: "Days", icon: <Calendar className="w-6 h-6" /> },
     { value: "50+", label: "Workshops", icon: <BookOpen className="w-6 h-6" /> }
   ];
@@ -50,7 +50,7 @@ const About = () => {
           transition={{ delay: 0.2 }}
         >
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-pink-300 to-purple-400">
-            About Ekarikthin 2025
+            About Ekarikthin 2026
           </span>
         </motion.h1>
         

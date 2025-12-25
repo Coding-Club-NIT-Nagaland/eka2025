@@ -684,7 +684,7 @@ const Events = () => {
   console.log('Filtered events:', filteredEvents);
 
   return (
-    <div className="min-h-screen w-full pt-24 px-6 relative flex flex-col items-center text-gray-800 dark:text-white">
+    <div className="min-h-screen w-full pt-24 pb-16 px-6 relative flex flex-col items-center text-gray-800 dark:text-white">
       <div className="max-w-7xl w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -950,15 +950,19 @@ const Events = () => {
                     </div>
                     
                     <div className="mt-6">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Rules</h3>
-                      <ul className="space-y-2">
-                        {selectedEvent.rules.map((rule, index) => (
-                          <li key={index} className="flex items-start">
-                            <span className="text-yellow-500 mr-2">•</span>
-                            <span className="text-gray-600 dark:text-gray-300">{rule}</span>
-                          </li>
-                        ))}
-                      </ul>
+                      <a
+                        href="/rules.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <ExternalLink size={16} className="mr-2" />
+                        View Rules (PDF)
+                      </a>
+                      <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                        Click to view the complete rules and guidelines for this event.
+                      </p>
                     </div>
                     
                     {selectedEvent.highlights && selectedEvent.highlights.length > 0 && (
@@ -1019,17 +1023,24 @@ const Events = () => {
                 </div>
 
                 <div className="mt-8 border-t border-gray-200 dark:border-gray-700 pt-6">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                    Event Rules
-                  </h3>
-                  <ul className="space-y-3">
-                    {selectedEvent.rules.map((rule, index) => (
-                      <li key={index} className="flex items-start">
-                        <span className="text-yellow-500 mr-2">•</span>
-                        <span className="text-gray-600 dark:text-gray-300">{rule}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                      Event Rules
+                    </h3>
+                    <a
+                      href="/rules.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <ExternalLink size={16} className="mr-2" />
+                      View Full Rules (PDF)
+                    </a>
+                  </div>
+                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                    Please download the rules document for complete details about the event rules and guidelines.
+                  </p>
                 </div>
               </div>
             </motion.div>

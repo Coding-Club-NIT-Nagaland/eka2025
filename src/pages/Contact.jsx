@@ -184,7 +184,7 @@ const Contact = () => {
                   href="mailto:contact@ekarikthin.com" 
                   className="text-pink-400 hover:text-pink-300 transition-colors"
                 >
-                  contact@ekarikthin.com
+                  techavi@nitnagaland.ac.in
                 </a>
               </div>
             </div>
@@ -199,7 +199,7 @@ const Contact = () => {
                   href="tel:+919876543210" 
                   className="text-blue-400 hover:text-blue-300 transition-colors"
                 >
-                  +91 98765 43210
+                  +91 7640859887
                 </a>
               </div>
             </div>
@@ -211,10 +211,10 @@ const Contact = () => {
               <div>
                 <h3 className="text-lg font-medium text-white">Visit Us</h3>
                 <p className="text-gray-400">
-                  Ekarikthin 2025<br />
-                  Cultural Fest Ground<br />
-                  University Campus<br />
-                  City, State - 123456
+                  Ekarikthin 2026<br />
+                  B.B. Court<br />
+                  NIT Nagaland<br />
+                  Chumukedima , Nagaland - 797103
                 </p>
               </div>
             </div>

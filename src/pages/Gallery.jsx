@@ -6,14 +6,14 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
    DATA
 ============================================ */
 const images = [
-  { id: 1, src: "assests/1.webp", title: "Admin Building", category: "College", photographer: "John Doe" },
-  { id: 2, src: "assests/2.jpg", title: "Battle of Bands", category: "music", photographer: "Sarah Chen" },
+  { id: 1, src: "assests/1.webp", title: "Admin Building", category: "College", photographer: "NIT Nagaland" },
+  { id: 2, src: "assests/2.jpg", title: "Battle of Bands", category: "music", photographer: "NIT Nagaland" },
   { id: 3, src: "assests/3.png", title: "Dance Competition", category: "dance", photographer: "Mike Johnson" },
-  { id: 4, src: "https://images.unsplash.com/photo-1558981033-0fcbf4e3e1c0?auto=format&w=1200", title: "Drama & Mime", category: "theatre", photographer: "Emma Wilson" },
-  { id: 5, src: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&w=1200", title: "Literary Event", category: "literary", photographer: "David Kim" },
-  { id: 6, src: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&w=1200", title: "Workshop Session", category: "workshop", photographer: "Priya Patel" },
-  { id: 7, src: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&w=1200", title: "Art Exhibition", category: "art", photographer: "Carlos Mendez" },
-  { id: 8, src: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&w=1200", title: "Fashion Show", category: "fashion", photographer: "Aisha Khan" },
+  { id: 4, src: "assests/Saweta.png", title: "Drama & Mime", category: "theatre", photographer: "Saweta Kumari" },
+  { id: 5, src: "assests/Sujal Karmakar.jpg", title: "Literary Event", category: "literary", photographer: "Sujal Karmakar" },
+  { id: 6, src: "assests/Nami_Hutho.png", title: "Workshop Session", category: "workshop", photographer: "Nami Hutho" },
+  { id: 7, src: "assests/Sachin.jpg", title: "Art Exhibition", category: "art", photographer: "Sachin Meena" },
+  { id: 8, src: "assests/Bendang_Longchar.png", title: "Fashion Show", category: "fashion", photographer: "Bendang Longchar" },
 ];
 
 const categories = ["all", ...new Set(images.map((i) => i.category))];

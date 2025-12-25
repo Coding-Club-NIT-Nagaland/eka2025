@@ -81,7 +81,7 @@ const SnakeGame = () => {
       });
     };
 
-    const gameInterval = setInterval(moveSnake, 100);
+    const gameInterval = setInterval(moveSnake, 150); // Increased from 100ms to 150ms for slower movement
     return () => clearInterval(gameInterval);
   }, [direction, food, gameOver, isPaused]);
 
@@ -94,66 +94,89 @@ const SnakeGame = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full p-4">
-      <div className="mb-4 flex justify-between w-full max-w-md">
-        <div className="text-lg">Score: {score}</div>
-        {gameOver && (
-          <button
-            onClick={resetGame}
-            className="px-4 py-1 bg-white/20 rounded hover:bg-white/30"
-          >
-            Play Again
-          </button>
-        )}
-        <button
-          onClick={() => setIsPaused(!isPaused)}
-          className="px-4 py-1 bg-white/20 rounded hover:bg-white/30"
-        >
-          {isPaused ? 'Resume' : 'Pause'}
-        </button>
+    <div className="flex flex-col items-center justify-center h-full p-2 md:p-4 w-full">
+      <div className="mb-3 md:mb-4 flex justify-between w-full max-w-md">
+        <div className="text-base md:text-lg font-medium">Score: {score}</div>
+        <div className="flex gap-2">
+          {gameOver ? (
+            <button
+              onClick={resetGame}
+              className="px-3 md:px-4 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md text-sm md:text-base transition-colors"
+            >
+              Play Again
+            </button>
+          ) : (
+            <button
+              onClick={() => setIsPaused(!isPaused)}
+              className="px-3 md:px-4 py-1 bg-gray-700 hover:bg-gray-600 text-white rounded-md text-sm md:text-base transition-colors"
+            >
+              {isPaused ? 'Resume' : 'Pause'}
+            </button>
+          )}
+        </div>
       </div>
       
       <div
-        className="relative bg-black/30 rounded-lg overflow-hidden"
+        className="relative border-2 border-gray-200 rounded-lg overflow-hidden bg-white/10"
         style={{
           width: GRID_SIZE * CELL_SIZE,
           height: GRID_SIZE * CELL_SIZE,
         }}
       >
+        {/* Game Grid */}
+        <div className="absolute inset-0 grid" 
+          style={{
+            gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`,
+            gridTemplateRows: `repeat(${GRID_SIZE}, 1fr)`,
+          }}
+        >
+          {Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, index) => (
+            <div 
+              key={index} 
+              className="border border-white/5"
+            />
+          ))}
+        </div>
+
         {/* Snake */}
         {snake.map((segment, index) => (
           <div
             key={index}
-            className="absolute bg-green-400 rounded-sm"
+            className="absolute rounded-sm transition-all duration-100"
             style={{
               left: segment.x * CELL_SIZE,
               top: segment.y * CELL_SIZE,
               width: CELL_SIZE - 1,
               height: CELL_SIZE - 1,
-              backgroundColor: index === 0 ? '#4ade80' : '#22c55e',
+              backgroundColor: index === 0 ? '#10b981' : '#34d399',
+              boxShadow: '0 0 4px rgba(0,0,0,0.2)',
+              zIndex: 10,
             }}
           />
         ))}
         
         {/* Food */}
         <div
-          className="absolute rounded-full bg-red-500"
+          className="absolute rounded-full animate-pulse"
           style={{
             left: food.x * CELL_SIZE,
             top: food.y * CELL_SIZE,
             width: CELL_SIZE - 1,
             height: CELL_SIZE - 1,
+            backgroundColor: '#ef4444',
+            boxShadow: '0 0 8px #ef4444',
+            zIndex: 5,
           }}
         />
         
         {/* Game Over Overlay */}
         {gameOver && (
-          <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center">
-            <div className="text-2xl font-bold mb-4">Game Over!</div>
-            <div className="text-lg mb-4">Final Score: {score}</div>
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center p-4">
+            <div className="text-2xl md:text-3xl font-bold text-white mb-3">Game Over!</div>
+            <div className="text-lg md:text-xl text-gray-200 mb-6">Final Score: {score}</div>
             <button
               onClick={resetGame}
-              className="px-6 py-2 bg-white/20 rounded-lg hover:bg-white/30"
+              className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-lg font-medium transition-colors"
             >
               Play Again
             </button>
@@ -162,39 +185,39 @@ const SnakeGame = () => {
         
         {/* Pause Overlay */}
         {isPaused && !gameOver && (
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <div className="text-2xl font-bold">Paused</div>
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center">
+            <div className="text-2xl md:text-3xl font-bold text-white">Paused</div>
           </div>
         )}
       </div>
       
       {/* Mobile Controls */}
-      <div className="mt-6 grid grid-cols-3 gap-2 md:hidden">
+      <div className="mt-4 md:mt-6 grid grid-cols-3 gap-2 md:hidden w-full max-w-[200px] mx-auto">
         <div></div>
         <button
           onClick={() => setDirection(DIRECTIONS.ArrowUp)}
-          className="p-4 bg-white/20 rounded"
+          className="p-3 bg-gray-700 hover:bg-gray-600 text-white rounded-md flex items-center justify-center aspect-square"
         >
-          ↑
+          <span className="text-xl">↑</span>
         </button>
         <div></div>
         <button
           onClick={() => setDirection(DIRECTIONS.ArrowLeft)}
-          className="p-4 bg-white/20 rounded"
+          className="p-3 bg-gray-700 hover:bg-gray-600 text-white rounded-md flex items-center justify-center aspect-square"
         >
-          ←
+          <span className="text-xl">←</span>
         </button>
         <button
           onClick={() => setDirection(DIRECTIONS.ArrowDown)}
-          className="p-4 bg-white/20 rounded"
+          className="p-3 bg-gray-700 hover:bg-gray-600 text-white rounded-md flex items-center justify-center aspect-square"
         >
-          ↓
+          <span className="text-xl">↓</span>
         </button>
         <button
           onClick={() => setDirection(DIRECTIONS.ArrowRight)}
-          className="p-4 bg-white/20 rounded"
+          className="p-3 bg-gray-700 hover:bg-gray-600 text-white rounded-md flex items-center justify-center aspect-square"
         >
-          →
+          <span className="text-xl">→</span>
         </button>
       </div>
     </div>
