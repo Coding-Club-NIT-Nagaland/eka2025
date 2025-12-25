@@ -3,6 +3,10 @@ import { CheckCircle, AlertCircle, ArrowLeft, Printer, Copy } from "lucide-react
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
 import { generateUserId } from "../utils/generateId";
+import emailjs from '@emailjs/browser';
+
+// Initialize EmailJS with your public key
+emailjs.init('FFyoZMeqTVWPiNlqK'); // Replace with your EmailJS public key
 
 const Registration = () => {
   const [searchParams] = useSearchParams();
@@ -217,6 +221,62 @@ const Registration = () => {
         mode: "no-cors",
         body: formDataToSend,
       });
+
+      // Prepare email template parameters
+      const emailData = {
+        service_id: 'service_tl0vu68',
+        template_id: 'template_dfjxflt',
+        user_id: 'FFyoZMeqTVWPiNlqK',
+        template_params: {
+          to_email: formData.email.trim(),
+          to_name: formData.name.trim(),
+          event_name: formData.event || 'Selected Event',
+          registration_id: formData.userId,
+          utr_number: formData.utrNumber.trim(),
+          amount: formData.event ? getEventPrice()[formData.participantType] : 0,
+          participant_type: formData.participantType === 'inside' ? 'Inside NITN' : 'Outside NITN',
+          date: new Date().toLocaleString('en-IN', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+          }),
+          from_name: 'Ekarikthin 2026',
+          reply_to: 'techvai@nitnagaland.ac.in',
+          // Add the recipient email in multiple formats to ensure it's recognized
+          email: formData.email.trim(),
+          user_email: formData.email.trim(),
+          recipient: formData.email.trim()
+        }
+      };
+
+      console.log('Sending email with data:', JSON.stringify(emailData, null, 2));
+
+      // Send email using EmailJS with error handling
+      try {
+        // Using the direct fetch API to call EmailJS
+        const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(emailData)
+        });
+
+        const responseData = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}, message: ${responseData.message || 'Unknown error'}`);
+        }
+        
+        console.log('Email sent successfully:', responseData);
+      } catch (emailError) {
+        console.error('Email sending failed:', emailError);
+        // Don't fail the whole registration if email fails
+        console.log('Proceeding with registration despite email failure');
+      }
 
       setIsSuccess(true);
     } catch (err) {
