@@ -89,7 +89,7 @@ function AppContent() {
         
         {/* Ticker - Only show on homepage */}
         {location.pathname === '/' && (
-          <div className="fixed top-16 left-0 right-0 z-50 w-full bg-black/80 backdrop-blur-sm border-t border-b border-white/10 overflow-hidden">
+          <div className="fixed top-16 left-0 right-0 z-40 w-full bg-black/80 backdrop-blur-sm border-t border-b border-white/10 overflow-hidden">
             <div className="ticker-container">
               <div className="ticker-wrapper">
                 {/* Duplicate the messages for seamless looping */}

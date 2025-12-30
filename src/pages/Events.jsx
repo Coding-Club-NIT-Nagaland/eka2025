@@ -735,7 +735,7 @@ const Events = () => {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5 lg:gap-6 transition-all duration-300">
+        <div className="flex flex-col gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-4 md:gap-5 lg:gap-6 transition-all duration-300 w-full max-w-2xl mx-auto sm:max-w-none">
           {isLoading ? (
             <div className="col-span-full text-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
@@ -749,9 +749,9 @@ const Events = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+              className="w-full bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer flex-shrink-0"
             >
-              <div className="relative h-36 xs:h-40 sm:h-44 md:h-48 overflow-hidden transition-all duration-300">
+              <div className="relative h-48 sm:h-44 md:h-48 overflow-hidden transition-all duration-300">
                 <img
                   src={event.image}
                   alt={event.title}
