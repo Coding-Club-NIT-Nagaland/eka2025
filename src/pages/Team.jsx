@@ -105,7 +105,7 @@ const culturalSecretaries = [
 // Financial Secretaries
 const financialSecretaries = [
   {
-    name: "Kondari Teja",
+    name: "Kondari Venkat Teja",
     role: "Financial Secretary",
     image: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800",
     bio: "Manages financial operations and budgeting .",
@@ -157,7 +157,7 @@ const esportsSecretaries = [
 // Disciplinary Secretaries
 const disciplinarySecretaries = [
   {
-    name: "Vikram Mehta",
+    name: "Potula Sai Kumar",
     role: "Disciplinary Secretary",
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800",
     bio: "Ensures discipline and code of conduct in the boys' hostel.",
@@ -170,6 +170,20 @@ const disciplinarySecretaries = [
   }
 ];
 
+const publicitySecretaries = [
+  {
+    name: "Leela Phani Sai Nadella",
+    role: "Disciplinary Secretary",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800",
+    bio: "Ensures discipline and code of conduct in the boys' hostel.",
+  },
+  {
+    name: "Ananya Reddy",
+    role: "Disciplinary Secretary",
+    image: "https://images.unsplash.com/photo-1531123895809-8103797704ed?q=80&w=800",
+    bio: "Maintains discipline and enforces hostel rules for girls.",
+  }
+];
 // Fermetrix Lab Team
 const fermetrixLabTeam = [
   {
@@ -286,7 +300,27 @@ const Team = () => {
       title: "Disciplinary Secretaries",
       members: disciplinarySecretaries,
       description: "Ensuring discipline and enforcing hostel rules"
-    }
+    },
+    {
+      title: "Publicity Secretaries",
+      members: publicitySecretaries,
+      description: "Ensuring discipline and enforcing hostel rules"
+    },
+    {
+      title: "clu",
+      members: disciplinarySecretaries,
+      description: "Ensuring discipline and enforcing hostel rules"
+    },
+    {
+      title: "Disciplinary Secretaries",
+      members: disciplinarySecretaries,
+      description: "Ensuring discipline and enforcing hostel rules"
+    },
+    {
+      title: "Disciplinary Secretaries",
+      members: disciplinarySecretaries,
+      description: "Ensuring discipline and enforcing hostel rules"
+    },
   ];
 
   return (

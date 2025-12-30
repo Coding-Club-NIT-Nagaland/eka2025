@@ -46,23 +46,72 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await fetch(GOOGLE_SHEET_CSV_URL);
-      const text = await res.text();
+      try {
+        const res = await fetch(GOOGLE_SHEET_CSV_URL);
+        const text = await res.text();
 
-      const rows = text
-        .split("\n")
-        .map((r) => r.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g));
+        // Parse CSV with proper handling of quoted fields
+        const rows = [];
+        const lines = text.split('\n');
+        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+        
+        for (let i = 1; i < lines.length; i++) {
+          if (!lines[i].trim()) continue;
+          
+          // Handle quoted fields with commas
+          const values = [];
+          let inQuotes = false;
+          let currentValue = '';
+          
+          for (let j = 0; j < lines[i].length; j++) {
+            const char = lines[i][j];
+            
+            if (char === '"') {
+              inQuotes = !inQuotes;
+            } else if (char === ',' && !inQuotes) {
+              values.push(currentValue);
+              currentValue = '';
+            } else {
+              currentValue += char;
+            }
+          }
+          values.push(currentValue);
+          
+          // Create record object with case-insensitive header matching
+          const record = {};
+          headers.forEach((header, index) => {
+            if (header) {
+              // Normalize header names for case-insensitive matching
+              const normalizedHeader = header.trim().toLowerCase();
+              const value = (values[index] || '').trim().replace(/^"/, '').replace(/"$/, '');
+              
+              // Map common variations of name fields
+              if (normalizedHeader.includes('name') || normalizedHeader.includes('fullname') || normalizedHeader.includes('full_name')) {
+                record['Name'] = value;
+              } else if (normalizedHeader.includes('email')) {
+                record['Email'] = value;
+              } else if (normalizedHeader.includes('phone') || normalizedHeader.includes('mobile')) {
+                record['Phone'] = value;
+              } else if (normalizedHeader.includes('event')) {
+                record['Event'] = value;
+              } else if (normalizedHeader.includes('utr') || normalizedHeader.includes('transaction')) {
+                record['UTR / Transaction ID'] = value;
+              } else {
+                // Keep original header for other fields
+                record[header] = value;
+              }
+            }
+          });
+          
+          rows.push(record);
+        }
 
-      const headers = rows[0];
-      const data = rows.slice(1).map((row) =>
-        headers.reduce((acc, h, i) => {
-          acc[h.trim()] = row?.[i]?.replace(/"/g, "") || "";
-          return acc;
-        }, {})
-      );
-
-      setRecords(data.reverse());
-      setLoading(false);
+        setRecords(rows.reverse());
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
@@ -157,6 +206,34 @@ const Dashboard = () => {
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
+  };
+
+  const handleRejectPayment = () => {
+    if (!selectedRegistration) return;
+    
+    if (window.confirm('Are you sure you want to mark this payment as unverified? This will clear the UTR and require re-verification.')) {
+      // Create a new object with the updated status
+      const updatedRecord = {
+        ...selectedRegistration,
+        'Payment Status': 'Unverified',
+        'Verification Date': new Date().toLocaleString(),
+        'UTR / Transaction ID': 'Pending Verification'
+      };
+      
+      // Update the records array
+      const recordIndex = records.findIndex(r => r === selectedRegistration);
+      if (recordIndex !== -1) {
+        const updatedRecords = [...records];
+        updatedRecords[recordIndex] = updatedRecord;
+        setRecords(updatedRecords);
+      }
+      
+      // Update the selected registration to show the changes immediately
+      setSelectedRegistration(updatedRecord);
+      
+      // Show success message
+      alert('Payment marked as unverified. The UTR has been cleared.');
+    }
   };
 
   const handleDelete = async () => {
@@ -272,7 +349,9 @@ const Dashboard = () => {
                   className="border-t border-gray-700 hover:bg-gray-700/50 cursor-pointer transition-colors"
                   onClick={() => setSelectedRegistration(r)}
                 >
-                  <td className="px-4 py-3">{r.Name}</td>
+                  <td className="px-4 py-3">
+                    {r.Name || Object.values(r).find((_, i) => i === 0) || 'N/A'}
+                  </td>
                   <td className="px-4 py-3">{r.Email}</td>
                   <td className="px-4 py-3 text-cyan-400">
                     {r.Event || "General"}
@@ -322,11 +401,15 @@ const Dashboard = () => {
                 </div>
 
                 <div className="space-y-4">
-                  <DetailItem 
-                    icon={<UserIcon className="w-5 h-5 text-cyan-400" />} 
-                    label="Name" 
-                    value={selectedRegistration.Name} 
-                  />
+                  <div className="flex items-start">
+                    <div className="mr-3 mt-0.5">
+                      <UserIcon className="w-5 h-5 text-cyan-400" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm text-gray-400">Name</p>
+                      <p className="text-gray-100 break-words">{selectedRegistration.Name || 'N/A'}</p>
+                    </div>
+                  </div>
                   <DetailItem 
                     icon={<Mail className="w-5 h-5 text-cyan-400" />} 
                     label="Email" 
@@ -381,19 +464,56 @@ const Dashboard = () => {
                       )}
                     </div>
 
-                    {selectedRegistration["UTR / Transaction ID"] ? (
-                      <div className="mt-2 p-3 bg-gray-700/50 rounded-lg flex justify-between items-center">
-                        <div>
-                          <p className="text-sm text-gray-300">UTR / Transaction ID</p>
-                          <p className="font-mono text-cyan-300">{selectedRegistration["UTR / Transaction ID"]}</p>
+                    {selectedRegistration["UTR / Transaction ID"] && 
+                     selectedRegistration["UTR / Transaction ID"] !== 'Pending Verification' &&
+                     selectedRegistration["UTR / Transaction ID"] !== '' ? (
+                      <div className="mt-2 space-y-2">
+                        <div className="p-3 bg-gray-700/50 rounded-lg">
+                          <div className="flex justify-between items-center mb-1">
+                            <p className="text-sm font-medium text-gray-300">Payment Details</p>
+                            <div className="flex items-center space-x-2">
+                              <button 
+                                onClick={handleRejectPayment}
+                                className="flex items-center px-2.5 py-1 text-xs bg-yellow-900/30 hover:bg-yellow-900/50 text-yellow-400 rounded-lg border border-yellow-800/50 transition-colors"
+                                title="Mark as Unverified"
+                              >
+                                <X className="w-3.5 h-3.5 mr-1" />
+                                Mark as Unverified
+                              </button>
+                              <button 
+                                onClick={() => copyToClipboard(selectedRegistration["UTR / Transaction ID"])}
+                                className="text-gray-400 hover:text-cyan-400 p-1"
+                                title="Copy UTR"
+                              >
+                                <Copy className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+                          <div className="space-y-1">
+                            <div className="flex justify-between">
+                              <span className="text-gray-400 text-sm">UTR / Transaction ID:</span>
+                              <span className="font-mono text-cyan-300">
+                                {selectedRegistration["UTR / Transaction ID"]}
+                              </span>
+                            </div>
+                            {selectedRegistration.Amount && (
+                              <div className="flex justify-between">
+                                <span className="text-gray-400 text-sm">Amount:</span>
+                                <span className="text-green-400">
+                                  ₹{selectedRegistration.Amount}
+                                </span>
+                              </div>
+                            )}
+                            {selectedRegistration['Payment Status'] === 'Unverified' && (
+                              <div className="mt-2 p-2 bg-yellow-900/20 border border-yellow-800/50 rounded text-yellow-300 text-sm">
+                                <div className="flex items-center">
+                                  <AlertTriangle className="w-4 h-4 mr-1.5 flex-shrink-0" />
+                                  <span>Payment marked as unverified</span>
+                                </div>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                        <button 
-                          onClick={() => copyToClipboard(selectedRegistration["UTR / Transaction ID"])}
-                          className="text-gray-400 hover:text-cyan-400 p-1"
-                          title="Copy UTR"
-                        >
-                          <Copy className="w-4 h-4" />
-                        </button>
                       </div>
                     ) : (
                       <div className="mt-4">

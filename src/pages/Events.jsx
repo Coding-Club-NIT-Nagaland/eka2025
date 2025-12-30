@@ -70,7 +70,7 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=1200",
       description: "A magical night of traditional, contemporary and regional cultural performances that showcase the rich diversity of our cultural heritage. Experience an evening filled with vibrant colors, captivating music, and mesmerizing performances that will leave you spellbound.",
       shortDescription: "A magical night of traditional, contemporary and regional cultural performances.",
-      tag: "✨ Featured Event",
+      tag: "✨ Cultural",
       prizePool: 20000, // Total prize pool
       prizeBreakup: {
         first: 12000,  // 60% of total
@@ -136,7 +136,7 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=1200",
       description: "A 24-hour coding marathon where developers, designers, and entrepreneurs come together to build innovative solutions to real-world problems.",
       shortDescription: "24-hour coding marathon to build innovative solutions.",
-      tag: "Cosplay",
+      tag: "Cultural",
       prizePool: 30000,
       prizeBreakup: {
         first: 20000,  // 60% of total
@@ -176,7 +176,7 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200",
       description: "A platform for budding entrepreneurs to pitch their startup ideas to a panel of investors and industry experts. Win seed funding and mentorship opportunities.",
       shortDescription: "Pitch your startup idea to investors and win funding.",
-      tag: "Bands",
+      tag: "Music",
       prizePool: 60000,
       prizeBreakup: {
         first: 40000,  // 60% of total
@@ -272,7 +272,7 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1547153760-18fc86324498?q=80&w=1200",
       description: "Show off your best dance moves in this high-energy dance competition. Solo and group categories available. Let the rhythm take over!",
       shortDescription: "Show off your best dance moves in this high-energy competition.",
-      tag: "💃 Dance",
+      tag: "Sports",
       prizePool: 3000,
       prizeBreakup: {
         first: 3000,  // 60% of total
@@ -304,7 +304,7 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1200",
       description: "Rock bands clash for the ultimate musical glory in this high-energy competition. Showcase your musical talent, stage presence, and crowd engagement as you battle it out with the best bands from across the region.",
       shortDescription: "Rock bands clash for the ultimate musical glory. Energy, rhythm & madness!",
-      tag: "🎵 Music Fest",
+      tag: "Entrepreneurship",
       prizePool: 2000,
       prizeBreakup: {
         first: 2000,  // 60% of total
@@ -336,7 +336,7 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1505373876331-ff89baa1df76?q=80&w=1200",
       description: "Laughter is the best medicine, and we're prescribing a heavy dose! Showcase your comedic timing, wit, and stage presence in this stand-up comedy competition.",
       shortDescription: "Bring the house down with your humor and wit in this stand-up comedy competition.",
-      tag: "😂 Comedy Show",
+      tag: "Sport",
       prizePool: 2000,
       prizeBreakup: {
         first: 2000,  // 60% of total
@@ -368,7 +368,7 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1558981033-0fcbf4e3e1c0?q=80&w=1200",
       description: "Experience the power of silence and expression in this unique competition that celebrates the art of mime and drama. Participants will be judged on their ability to convey emotions, tell stories, and captivate the audience without words.",
       shortDescription: "Theatre, mime, storytelling & emotions — witness power without words.",
-      tag: "🎭 Theatre Show",
+      tag: "Sports",
       prizePool: 2000,
       prizeBreakup: {
         first: 2000,  // 60% of total
@@ -400,7 +400,7 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1558981033-0fcbf4e3e1c0?q=80&w=1200",
       description: "Experience the power of silence and expression in this unique competition that celebrates the art of mime and drama. Participants will be judged on their ability to convey emotions, tell stories, and captivate the audience without words.",
       shortDescription: "Theatre, mime, storytelling & emotions — witness power without words.",
-      tag: "🎭 Theatre Show",
+      tag: "Sports",
       prizePool: 2000,
       prizeBreakup: {
         first: 2000,  // 60% of total
@@ -432,7 +432,7 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1558981033-0fcbf4e3e1c0?q=80&w=1200",
       description: "Experience the power of silence and expression in this unique competition that celebrates the art of mime and drama. Participants will be judged on their ability to convey emotions, tell stories, and captivate the audience without words.",
       shortDescription: "Theatre, mime, storytelling & emotions — witness power without words.",
-      tag: "🎭 Theatre Show",
+      tag: "Sports",
       prizePool: 2000,
       prizeBreakup: {
         first: 2000,  // 60% of total
@@ -464,7 +464,7 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1558981033-0fcbf4e3e1c0?q=80&w=1200",
       description: "Experience the power of silence and expression in this unique competition that celebrates the art of mime and drama. Participants will be judged on their ability to convey emotions, tell stories, and captivate the audience without words.",
       shortDescription: "Theatre, mime, storytelling & emotions — witness power without words.",
-      tag: "🎭 Theatre Show",
+      tag: "Cultural",
       prizePool: 3000,
       prizeBreakup: {
         first: 2000,  // 60% of total
@@ -496,7 +496,7 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1558981033-0fcbf4e3e1c0?q=80&w=1200",
       description: "Experience the power of silence and expression in this unique competition that celebrates the art of mime and drama. Participants will be judged on their ability to convey emotions, tell stories, and captivate the audience without words.",
       shortDescription: "Theatre, mime, storytelling & emotions — witness power without words.",
-      tag: "🎭 Theatre Show",
+      tag: "Cultural",
       prizePool: 2500,
       prizeBreakup: {
         first: 1500,  // 60% of total
@@ -528,7 +528,7 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1558981033-0fcbf4e3e1c0?q=80&w=1200",
       description: "Experience the power of silence and expression in this unique competition that celebrates the art of mime and drama. Participants will be judged on their ability to convey emotions, tell stories, and captivate the audience without words.",
       shortDescription: "Theatre, mime, storytelling & emotions — witness power without words.",
-      tag: "🎭 Theatre Show",
+      tag: "Sports",
       prizePool: 21500,
       prizeBreakup: {
         first: 10000,  // 60% of total
@@ -562,7 +562,7 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1558981033-0fcbf4e3e1c0?q=80&w=1200",
       description: "Experience the power of silence and expression in this unique competition that celebrates the art of mime and drama. Participants will be judged on their ability to convey emotions, tell stories, and captivate the audience without words.",
       shortDescription: "Theatre, mime, storytelling & emotions — witness power without words.",
-      tag: "🎭 Theatre Show",
+      tag: "Sports",
       prizePool: 16500,
       prizeBreakup: {
         first: 7000,  // 60% of total
@@ -596,7 +596,7 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1558981033-0fcbf4e3e1c0?q=80&w=1200",
       description: "Experience the power of silence and expression in this unique competition that celebrates the art of mime and drama. Participants will be judged on their ability to convey emotions, tell stories, and captivate the audience without words.",
       shortDescription: "Theatre, mime, storytelling & emotions — witness power without words.",
-      tag: "🎭 Theatre Show",
+      tag: "Sports",
       prizePool: 54000,
       prizeBreakup: {
         first: 30000,  // 60% of total
@@ -721,16 +721,7 @@ const Events = () => {
             >
               Cultural
             </button>
-            <button
-              onClick={() => setActiveCategory('mini')}
-              className={`px-5 py-2 rounded-full font-medium transition-colors text-sm sm:text-base ${
-                activeCategory === 'mini' 
-                  ? 'bg-green-600 text-white shadow-lg shadow-green-500/30' 
-                  : 'bg-white/10 text-white hover:bg-white/20'
-              }`}
-            >
-              Mini Events
-            </button>
+            
             <button
               onClick={() => setActiveCategory('sports')}
               className={`px-5 py-2 rounded-full font-medium transition-colors text-sm sm:text-base ${
