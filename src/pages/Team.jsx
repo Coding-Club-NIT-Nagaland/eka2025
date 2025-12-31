@@ -1,11 +1,84 @@
-import { Linkedin, Instagram, Mail } from "lucide-react";
+import { Linkedin, Instagram, Mail, X } from "lucide-react";
 import { useState } from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion, useMotionValue, useTransform, AnimatePresence } from "framer-motion";
 
 /* ==========================
    3D HOVER CARD COMPONENT
 ========================== */
-const HoverTeamCard = ({ member, onClick, isGeneralSecretary = false }) => {
+const MemberModal = ({ member, onClose }) => {
+  if (!member) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <motion.div 
+        className="bg-gray-900 rounded-2xl p-6 max-w-md w-full mx-4 relative border border-gray-700/50"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        onClick={e => e.stopPropagation()}
+      >
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+          aria-label="Close"
+        >
+          <X size={24} />
+        </button>
+        
+        <div className="flex flex-col items-center text-center">
+          <div className="w-32 h-32 rounded-full overflow-hidden mb-4 border-2 border-cyan-500/50">
+            <img 
+              src={member.image} 
+              alt={member.name} 
+              className="w-full h-full object-cover"
+            />
+          </div>
+          
+          <h3 className="text-2xl font-bold text-white mb-1">{member.name}</h3>
+          <p className="text-cyan-400 mb-4">{member.role}</p>
+          <p className="text-gray-300 mb-6">{member.bio}</p>
+          
+          <div className="flex gap-4">
+            {member.socials?.linkedin && (
+              <a 
+                href={member.socials.linkedin} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-[#0077b5] transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin size={24} />
+              </a>
+            )}
+            {member.socials?.instagram && (
+              <a 
+                href={member.socials.instagram} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-[#e1306c] transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram size={24} />
+              </a>
+            )}
+            {member.socials?.email && (
+              <a 
+                href={`mailto:${member.socials.email}`}
+                className="text-gray-300 hover:text-white transition-colors"
+                aria-label="Email"
+              >
+                <Mail size={24} />
+              </a>
+            )}
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+const HoverTeamCard = ({ member, isGeneralSecretary = false }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -19,55 +92,71 @@ const HoverTeamCard = ({ member, onClick, isGeneralSecretary = false }) => {
   };
 
   return (
-    <motion.div
-      className={`relative group cursor-pointer ${isGeneralSecretary ? 'max-w-2xl mx-auto' : ''}`}
-      onClick={onClick}
-      whileHover={{ y: -5 }}
-      transition={{ type: 'spring', stiffness: 300 }}
-    >
-      <div 
-        className={`bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-0 border border-gray-700/50 hover:border-cyan-500/30 transition-all duration-300 w-full max-w-[280px] mx-auto overflow-hidden ${isGeneralSecretary ? 'border-2 border-cyan-500/50' : ''}`}
-        onMouseMove={handleMove}
-        onMouseLeave={() => {
-          x.set(0);
-          y.set(0);
-        }}
-        style={{
-          height: '400px',
-          transformStyle: 'preserve-3d',
-          rotateX,
-          rotateY,
-        }}
+    <>
+      <motion.div
+        className={`relative group cursor-pointer ${isGeneralSecretary ? 'max-w-2xl mx-auto' : ''}`}
+        onClick={() => setIsModalOpen(true)}
+        whileHover={{ y: -5 }}
+        transition={{ type: 'spring', stiffness: 300 }}
       >
-        <div className="relative h-full">
-          <img
-            src={member.image}
-            alt={member.name}
-            className="absolute inset-0 w-full h-full object-cover rounded-t-xl group-hover:opacity-90 transition-opacity"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4 rounded-b-xl">
-            <div className="text-center">
-              <h3 className={`font-bold ${isGeneralSecretary ? 'text-xl' : 'text-lg'} text-white mb-1`}>
-                {member.name}
-              </h3>
-              <p className={`${isGeneralSecretary ? 'text-cyan-300' : 'text-cyan-300 text-sm'}`}>
-                {member.role}
-              </p>
-              <p className="text-gray-300 text-xs mt-2 line-clamp-2">{member.bio}</p>
+        <div 
+          className={`bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-0 border border-gray-700/50 hover:border-cyan-500/30 transition-all duration-300 w-full max-w-[280px] mx-auto overflow-hidden ${isGeneralSecretary ? 'border-2 border-cyan-500/50' : ''}`}
+          onMouseMove={handleMove}
+          onMouseLeave={() => {
+            x.set(0);
+            y.set(0);
+          }}
+          style={{
+            height: '400px',
+            transformStyle: 'preserve-3d',
+            rotateX,
+            rotateY,
+          }}
+        >
+          <div className="relative h-full">
+            <img
+              src={member.image}
+              alt={member.name}
+              className="absolute inset-0 w-full h-full object-cover rounded-t-xl group-hover:opacity-90 transition-opacity"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4 rounded-b-xl">
+              <div className="text-center">
+                <h3 className={`font-bold ${isGeneralSecretary ? 'text-xl' : 'text-lg'} text-white mb-1`}>
+                  {member.name}
+                </h3>
+                <p className={`${isGeneralSecretary ? 'text-cyan-300' : 'text-cyan-300 text-sm'}`}>
+                  {member.role}
+                </p>
+                <p className="text-gray-300 text-xs mt-2 line-clamp-2">{member.bio}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+      
+      <AnimatePresence>
+        {isModalOpen && (
+          <MemberModal 
+            member={member} 
+            onClose={() => setIsModalOpen(false)} 
+          />
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
 // General Secretary (Single card at the top)
 const generalSecretary = {
-  name: "Khrieketouzo Peter Sekhose ",
+  name: "Khrieketouzo Peter Sekhose",
   role: "General Secretary",
-  image: "https://images.unsplash.com/photo-1603415526960-f7e0328a1f06?q=80&w=800",
+  image: "NA",
   bio: "Leads the entire team and oversees all operations of Ekarikthin 2025.",
+  socials: {
+    linkedin: "NA",
+    instagram: "https://www.instagram.com/khrieketouzosekhose?igsh=ejd5cHQyaXdrbGRx",
+    email: "khrieketouzopetersekhose@gmail.com"
+  }
 };
 
 // Technical Secretaries
@@ -75,14 +164,24 @@ const technicalSecretaries = [
   {
     name: "Hrishabh Raj",
     role: "Technical Secretary and Lead Website Developer",
-    image: "https://images.unsplash.com/photo-1554151228-14d9def656e4?q=80&w=800",
+    image: "https://unsplash.com/photos/an-empty-road-in-the-middle-of-a-forest-xy2UBoeQ4Sc",
     bio: "Manages technical operations and implementations.",
+    socials: {
+      linkedin: "https://www.linkedin.com/in/hrishabxcode/",
+      instagram: "https://www.instagram.com/_hrishabhr/",
+      email: "hrishabhtest@gmail.com"
+    }
   },
   {
     name: "Lanuyanger Aier",
     role: "Technical Secretary",
-    image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=800",
+    image: "NA",
     bio: "Oversees technical infrastructure and development.",
+    socials: {
+      linkedin: "#",
+      instagram: "#",
+      email: "#"
+    }
   }
 ];
 
@@ -91,13 +190,13 @@ const culturalSecretaries = [
   {
     name: "Cheerla Sai Varun",
     role: "Cultural Secretary",
-    image: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800",
+    image: "NA",
     bio: "Leads cultural events and activities.",
   },
   {
     name: "Khrieto Rhutso",
     role: "Cultural Secretary",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800",
+    image: "NA",
     bio: "Manages cultural programs and events.",
   }
 ];
@@ -105,15 +204,15 @@ const culturalSecretaries = [
 // Financial Secretaries
 const financialSecretaries = [
   {
-    name: "Kondari Venkat Teja",
+    name: "Kondari Venkata Teja",
     role: "Financial Secretary",
-    image: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=800",
+    image: "NA",
     bio: "Manages financial operations and budgeting .",
   },
   {
     name: "Vikhosano Rino",
     role: "Financial Secretary",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800",
+    image: "NA",
     bio: "Oversees financial management and expenditures.",
   }
 ];
@@ -121,51 +220,51 @@ const financialSecretaries = [
 // E-Sports Secretaries
 const sportsSecretaries = [
   {
-    name: "Will Update",
+    name: "Koyyala Kesava",
     role: "Sports Secretary",
-    image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?q=80&w=800",
+    image: "NA",
     bio: "Manages sports activities and inter-hostel tournaments.",
     
   },
   {
-    name: "Kyeing Konyak",
+    name: "Kyeing David K Konyak",
     role: "Sports Secretary",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800",
+    image: "NA",
     bio: "Oversees sports events and promotes athletic participation.",
     
   }
 ];
 
 // Sports Secretaries
-const esportsSecretaries = [
-  {
-    name: "Ajay Singh Poswal",
-    role: "E-Sports Secretary",
-    image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800",
-    bio: "Coordinates and manages all E-Sports events and tournaments.",
+// const esportsSecretaries = [
+//   {
+//     name: "Ajay Singh Poswal",
+//     role: "E-Sports Secretary",
+//     image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800",
+//     bio: "Coordinates and manages all E-Sports events and tournaments.",
     
-  },
-  {
-    name: "Elias S Thonger",
-    role: "Sports Secretary",
-    image: "https://images.unsplash.com/photo-1517649763962-0c2a4167f0cb?q=80&w=800",
-    bio: "Leads and organizes E-Sports activities and competitions.",
+//   },
+//   {
+//     name: "Elias S Thonger",
+//     role: "Sports Secretary",
+//     image: "https://images.unsplash.com/photo-1517649763962-0c2a4167f0cb?q=80&w=800",
+//     bio: "Leads and organizes E-Sports activities and competitions.",
     
-  }
-];
+//   }
+// ];
 
 // Disciplinary Secretaries
 const disciplinarySecretaries = [
   {
     name: "Potula Sai Kumar",
     role: "Disciplinary Secretary",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800",
+    image: "NA",
     bio: "Ensures discipline and code of conduct in the boys' hostel.",
   },
   {
-    name: "Ananya Reddy",
+    name: "Khyothungo R Kikon",
     role: "Disciplinary Secretary",
-    image: "https://images.unsplash.com/photo-1531123895809-8103797704ed?q=80&w=800",
+    image: "NA",
     bio: "Maintains discipline and enforces hostel rules for girls.",
   }
 ];
@@ -174,72 +273,47 @@ const publicitySecretaries = [
   {
     name: "Leela Phani Sai Nadella",
     role: "Disciplinary Secretary",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800",
-    bio: "Ensures discipline and code of conduct in the boys' hostel.",
+    image: "NA",
+    bio: "NA",
   },
   {
     name: "Ananya Reddy",
     role: "Disciplinary Secretary",
-    image: "https://images.unsplash.com/photo-1531123895809-8103797704ed?q=80&w=800",
+    image: "NA",
     bio: "Maintains discipline and enforces hostel rules for girls.",
   }
 ];
 // Fermetrix Lab Team
-const fermetrixLabTeam = [
-  {
-    name: "Dr. Sarah Johnson",
-    role: "Director of Research",
-    image: "https://randomuser.me/api/portraits/women/1.jpg",
-    bio: "Leading research initiatives and guiding the scientific direction of Fermetrix Lab."
-  },
-  {
-    name: "Dr. Michael Chen",
-    role: "Lead Biotechnologist",
-    image: "https://randomuser.me/api/portraits/men/1.jpg",
-    bio: "Pioneering biotechnological innovations and research at Fermetrix Lab."
-  },
-  {
-    name: "Dr. Emily Rodriguez",
-    role: "Senior Data Scientist",
-    image: "https://randomuser.me/api/portraits/women/2.jpg",
-    bio: "Driving data-driven insights and machine learning applications in our research."
-  },
-  {
-    name: "Dr. James Wilson",
-    role: "Quantum Computing Lead",
-    image: "https://randomuser.me/api/portraits/men/2.jpg",
-    bio: "Exploring the frontiers of quantum computing and its applications."
-  }
-];
+
 
 // NSS Secretaries
 const nssSecretaries = [
   {
-    name: "Rahul Meena",
-    role: "NSS Secretary (Boys)",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800",
-    bio: "Leads National Service Scheme activities and community service initiatives for boys.",
+    name: "Pachei  P Khiamniungan",
+    role: "NSS Secretary",
+    image: "NA",
+    bio: "Coordinates NSS Activities",
   },
   {
-    name: "Priyanka Kumari",
-    role: "NSS Secretary (Girls)",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800",
-    bio: "Coordinates NSS programs and social service activities for girls.",
+    name: "Manda Rama Sankeerthi",
+    role: "NSS Secretary",
+    image: "NA",
+    bio: "Coordinates NSS programs and social service activities",
   }
 ];
 
 // Alumni Secretaries
 const alumniSecretaries = [
   {
-    name: "Amit Kumar",
-    role: "Alumni Secretary (Boys)",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800",
+    name: "Chinnala Manoj",
+    role: "Alumni Secretary",
+    image: "NA",
     bio: "Maintains alumni relations and organizes alumni events for boys.",
   },
   {
-    name: "Divya Sharma",
-    role: "Alumni Secretary (Girls)",
-    image: "https://images.unsplash.com/photo-1531123895809-8103797704ed?q=80&w=800",
+    name: "Laihamdi Maibangsa",
+    role: "Alumni Secretary",
+    image: "NA",
     bio: "Coordinates alumni network and engagement activities for girls.",
   }
 ];
@@ -286,11 +360,11 @@ const Team = () => {
       members: alumniSecretaries,
       description: "Maintaining alumni relations and organizing alumni events"
     },
-    {
-      title: "E-Sports Secretaries",
-      members: esportsSecretaries,
-      description: "Organizing and managing E-Sports events and tournaments"
-    },
+    // {
+    //   title: "E-Sports Secretaries",
+    //   members: esportsSecretaries,
+    //   description: "Organizing and managing E-Sports events and tournaments"
+    // },
     {
       title: "Sports Secretaries",
       members: sportsSecretaries,
@@ -302,25 +376,25 @@ const Team = () => {
       description: "Ensuring discipline and enforcing hostel rules"
     },
     {
-      title: "Publicity Secretaries",
-      members: publicitySecretaries,
+      title: "Alumni Secretaries",
+      members: alumniSecretaries,
       description: "Ensuring discipline and enforcing hostel rules"
     },
-    {
-      title: "clu",
-      members: disciplinarySecretaries,
-      description: "Ensuring discipline and enforcing hostel rules"
-    },
-    {
-      title: "Disciplinary Secretaries",
-      members: disciplinarySecretaries,
-      description: "Ensuring discipline and enforcing hostel rules"
-    },
-    {
-      title: "Disciplinary Secretaries",
-      members: disciplinarySecretaries,
-      description: "Ensuring discipline and enforcing hostel rules"
-    },
+    // {
+    //   title: "clu",
+    //   members: disciplinarySecretaries,
+    //   description: "Ensuring discipline and enforcing hostel rules"
+    // },
+    // {
+    //   title: "Disciplinary Secretaries",
+    //   members: disciplinarySecretaries,
+    //   description: "Ensuring discipline and enforcing hostel rules"
+    // },
+    // {
+    //   title: "Disciplinary Secretaries",
+    //   members: disciplinarySecretaries,
+    //   description: "Ensuring discipline and enforcing hostel rules"
+    // },
   ];
 
   return (
