@@ -64,7 +64,7 @@ const Events = () => {
     {
       id: 1,
       title: "Voice of Ekarikthin",
-      date: "March 15, 2025",
+      date: "Will be updated soon",
       time: "6:00 PM - 10:00 PM",
       location: "B.B. Court",
       image: "/images/voe.png",
@@ -94,7 +94,7 @@ const Events = () => {
     {
       id: 2,
       title: "Ritzy",
-      date: "March 16, 2025",
+      date: "Will be updated soon",
       registrationFee: {
         inside: 800,
         outside: 800
@@ -124,7 +124,7 @@ const Events = () => {
     {
       id: 3,
       title: "Cosplay",
-      date: "March 17, 2025",
+      date: "Will be updated soon",
       time: "9:00 AM - 9:00 PM",
       location: "Computer Center",
       image: "/images/cp.png",
@@ -161,7 +161,7 @@ const Events = () => {
     {
       id: 4,
       title: "Rockville",
-      date: "March 18, 2025",
+      date: "Will be updated soon",
       time: "10:00 AM - 4:00 PM",
       location: "Business Incubator",
       image: "/images/rv.png",
@@ -190,7 +190,7 @@ const Events = () => {
     {
       id: 5,
       title: "BGMI",
-      date: "March 19, 2025",
+      date: "Will be updated soon",
       time: "11:00 AM - 5:00 PM",
       location: "Engineering Block",
       image: "/images/bgmi.png",
@@ -219,7 +219,7 @@ const Events = () => {
     {
       id: 6,
       title: "MLBB",
-      date: "March 20, 2025",
+      date: "Will be updated soon",
       time: "All Day",
       location: "Campus Wide",
       image: "/images/ml.png",
@@ -248,7 +248,7 @@ const Events = () => {
     {
       id: 7,
       title: "Survive NIT",
-      date: "March 21, 2025",
+      date: "Will be updated soon",
       time: "5:00 PM - 9:00 PM",
       location: "Main Stage",
       image: "/images/sn.png",
@@ -277,7 +277,7 @@ const Events = () => {
     {
       id: 8,
       title: "Pitch It",
-      date: "March 22, 2025",
+      date: "Will be updated soon",
       time: "6:00 PM - 10:00 PM",
       location: "Open Air Theater",
       image: "/images/pi.png",
@@ -306,7 +306,7 @@ const Events = () => {
     {
       id: 9,
       title: "Brain Snap",
-      date: "March 17, 2025",
+      date: "Will be updated soon",
       time: "7:00 PM - 9:30 PM",
       location: "Amphitheater",
       image: "/images/bs.png",
@@ -335,7 +335,7 @@ const Events = () => {
     {
       id: 10,
       title: "Spell Bee",
-      date: "March 17, 2025",
+      date: "Will be updated soon",
       time: "11:00 AM - 3:00 PM",
       location: "Mini Auditorium",
       image: "/images/sb.png",
@@ -364,7 +364,7 @@ const Events = () => {
      {
       id: 11,
       title: "Circuit X",
-      date: "March 17, 2025",
+      date: "Will be updated soon",
       time: "11:00 AM - 3:00 PM",
       location: "Mini Auditorium",
       image: "/images/cx.png",
@@ -393,7 +393,7 @@ const Events = () => {
      {
       id: 12,
       title: "Rangoli",
-      date: "March 17, 2025",
+      date: "Will be updated soon",
       time: "11:00 AM - 3:00 PM",
       location: "Mini Auditorium",
       image: "/images/rg.png",
@@ -422,7 +422,7 @@ const Events = () => {
      {
       id: 13,
       title: "Reel of Ekarikthin",
-      date: "March 17, 2025",
+      date: "Will be updated soon",
       time: "11:00 AM - 3:00 PM",
       location: "Mini Auditorium",
       image: "/images/roe.png",
@@ -451,7 +451,7 @@ const Events = () => {
      {
       id: 14,
       title: "Photo of Ekarikthin",
-      date: "March 17, 2025",
+      date: "Will be updated soon",
       time: "11:00 AM - 3:00 PM",
       location: "Mini Auditorium",
       image: "/images/photo.jpeg",
@@ -480,7 +480,7 @@ const Events = () => {
      {
       id: 15,
       title: "MEN'S MARATHON",
-      date: "March 17, 2025",
+      date: "Will be updated soon",
       time: "11:00 AM - 3:00 PM",
       location: "Mini Auditorium",
       image: "/images/mar.jpeg",
@@ -511,7 +511,7 @@ const Events = () => {
     {
       id: 16,
       title: "WOMEN'S MARATHON",
-      date: "March 17, 2025",
+      date: "Will be updated soon",
       time: "11:00 AM - 3:00 PM",
       location: "Mini Auditorium",
       image: "/images/mar.jpeg",
@@ -542,7 +542,7 @@ const Events = () => {
     {
       id: 17,
       title: "FUTSAL",
-      date: "March 17, 2025",
+      date: "Will be updated soon",
       time: "11:00 AM - 3:00 PM",
       location: "Mini Auditorium",
       image: "/images/fut.jpeg",
