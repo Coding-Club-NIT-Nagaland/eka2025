@@ -69,7 +69,7 @@ const Navbar = () => {
       {/* Main Navigation */}
       <motion.nav
         ref={navRef}
-        className={`fixed top-0 left-0 right-0 z-50 ${scrolled
+        className={`fixed top-0 left-0 right-0 z-50 w-full ${scrolled
           ? 'bg-white/95 dark:bg-black/90 backdrop-blur-xl shadow-sm dark:shadow-[0_4px_30px_rgba(0,0,0,0.5)]'
           : 'bg-white dark:bg-black backdrop-blur-none'
           } transition-all duration-300`}
@@ -172,7 +172,7 @@ const Navbar = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/80 z-40 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/80 z-30 backdrop-blur-sm"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div
