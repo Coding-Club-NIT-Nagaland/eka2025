@@ -1,0 +1,156 @@
+name: Slack Commit Notification
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Optional: allows manual triggering
+
+jobs:
+  notify-slack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for commit info
+
+      - name: Get Commit Information
+        id: commit-info
+        run: |
+          # Get the latest commit details
+          COMMIT_HASH=$(git log -1 --pretty=format:"%H")
+          COMMIT_AUTHOR_NAME=$(git log -1 --pretty=format:"%an")
+          COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=format:"%ae")
+          COMMIT_TIMESTAMP=$(git log -1 --pretty=format:"%aI")
+          COMMIT_MESSAGE=$(git log -1 --pretty=format:"%s")
+          COMMIT_BODY=$(git log -1 --pretty=format:"%b" | sed ':a;N;$!ba;s/\n/\\n/g')
+          COMMIT_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${COMMIT_HASH}"
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          REPOSITORY_NAME=${GITHUB_REPOSITORY}
+          
+          # Get number of files changed
+          FILES_CHANGED=$(git diff --name-only HEAD~1 HEAD | wc -l)
+          
+          # Get git author info
+          GIT_AUTHOR=$(git log -1 --pretty=format:"%an <%ae>")
+          
+          # Get commit stats (additions/deletions)
+          COMMIT_STATS=$(git diff --shortstat HEAD~1 HEAD 2>/dev/null || echo "0 files changed")
+          
+          # Set outputs for later use
+          echo "commit_hash=${COMMIT_HASH}" >> $GITHUB_OUTPUT
+          echo "commit_author_name=${COMMIT_AUTHOR_NAME}" >> $GITHUB_OUTPUT
+          echo "commit_author_email=${COMMIT_AUTHOR_EMAIL}" >> $GITHUB_OUTPUT
+          echo "commit_timestamp=${COMMIT_TIMESTAMP}" >> $GITHUB_OUTPUT
+          echo "commit_message=${COMMIT_MESSAGE}" >> $GITHUB_OUTPUT
+          echo "commit_body=${COMMIT_BODY}" >> $GITHUB_OUTPUT
+          echo "commit_url=${COMMIT_URL}" >> $GITHUB_OUTPUT
+          echo "branch_name=${BRANCH_NAME}" >> $GITHUB_OUTPUT
+          echo "repository_name=${REPOSITORY_NAME}" >> $GITHUB_OUTPUT
+          echo "files_changed=${FILES_CHANGED}" >> $GITHUB_OUTPUT
+          echo "git_author=${GIT_AUTHOR}" >> $GITHUB_OUTPUT
+          echo "commit_stats=${COMMIT_STATS}" >> $GITHUB_OUTPUT
+          
+          # Get changed files list
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD | head -20)
+          echo "changed_files=${CHANGED_FILES}" >> $GITHUB_OUTPUT
+
+      - name: Send Slack Notification
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "🚀 New Commit to Main Branch",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Repository:*\n${{ github.repository }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n${{ steps.commit-info.outputs.branch_name }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*👤 Commit Author*\n${{ steps.commit-info.outputs.commit_author_name }} <${{ steps.commit-info.outputs.commit_author_email }}>"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*📝 Commit Message*\n```${{ steps.commit-info.outputs.commit_message }}```"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*📋 Commit Description*\n${{ steps.commit-info.outputs.commit_body }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*📊 Files Changed:*\n${{ steps.commit-info.outputs.files_changed }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*📈 Stats:*\n${{ steps.commit-info.outputs.commit_stats }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*🔗 Commit Link*\n<${{ steps.commit-info.outputs.commit_url }}|View Commit>"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*🕐 Timestamp*\n${{ fromJSON(steps.commit-info.outputs.commit_timestamp) }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*📄 Changed Files (first 20):*\n```${{ steps.commit-info.outputs.changed_files }}```"
+                  }
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "Commit Hash: ${{ steps.commit-info.outputs.commit_hash }}"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
