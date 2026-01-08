@@ -1,318 +1,119 @@
-name: Slack – Detailed Commit Notification
+name: Slack – Commit Notification
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   slack:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code with full history
+      - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          
-      - name: Extract comprehensive commit info
-        id: commit-info
+        
+      - name: Get commit info
+        id: commit
         run: |
-          # Get commit details
-          SHORT_SHA=$(git rev-parse --short HEAD)
-          FULL_SHA=$(git rev-parse HEAD)
-          COMMIT_MSG=$(git log -1 --pretty=format:"%s")
-          COMMIT_BODY=$(git log -1 --pretty=format:"%b")
-          AUTHOR_NAME=$(git log -1 --pretty=format:"%an")
-          AUTHOR_EMAIL=$(git log -1 --pretty=format:"%ae")
-          COMMITTER_NAME=$(git log -1 --pretty=format:"%cn")
-          COMMITTER_EMAIL=$(git log -1 --pretty=format:"%ce")
-          COMMIT_DATE=$(git log -1 --pretty=format:"%cd" --date=format:"%Y-%m-%d %H:%M:%S UTC")
-          
-          # Get changed files and stats
-          if [ $(git rev-list --count HEAD) -gt 1 ]; then
-            CHANGED_FILES_COUNT=$(git diff --name-only HEAD~1 HEAD | wc -l)
-            GIT_STATS=$(git diff --shortstat HEAD~1 HEAD 2>/dev/null || echo "0 files changed")
-            CHANGED_FILES_LIST=$(git diff --name-only HEAD~1 HEAD | head -10)
-          else
-            CHANGED_FILES_COUNT=$(git diff --name-only HEAD | wc -l)
-            GIT_STATS=$(git diff --shortstat HEAD 2>/dev/null || echo "0 files changed")
-            CHANGED_FILES_LIST=$(git diff --name-only HEAD | head -10)
-          fi
-          
-          # Check if this is a PR merge
-          IS_PR="false"
-          PR_NUMBER=""
-          PR_TITLE=""
-          
-          # Pattern 1: Standard GitHub merge "Merge pull request #123"
-          if [[ "$COMMIT_MSG" =~ Merge\ pull\ request\ #([0-9]+) ]]; then
-            IS_PR="true"
-            PR_NUMBER="${BASH_REMATCH[1]}"
-            PR_TITLE=$(echo "$COMMIT_MSG" | sed -E 's/.*Merge pull request #[0-9]+ from [^ ]+ //')
-          
-          # Pattern 2: Squash merge with (#123) at end
-          elif [[ "$COMMIT_MSG" =~ \(#([0-9]+)\)$ ]]; then
-            IS_PR="true"
-            PR_NUMBER="${BASH_REMATCH[1]}"
-            PR_TITLE=$(echo "$COMMIT_MSG" | sed 's/ (#[0-9]*)//')
-          fi
-          
-          # Get author GitHub profile
-          AUTHOR_PROFILE=""
-          if [[ "$AUTHOR_EMAIL" == *"@users.noreply.github.com" ]]; then
-            GITHUB_USER=$(echo "$AUTHOR_EMAIL" | cut -d'@' -f1)
-            AUTHOR_PROFILE="https://github.com/${GITHUB_USER}"
-          fi
-          
-          # Format files list for display
-          FILES_DISPLAY=""
-          if [ -n "$CHANGED_FILES_LIST" ]; then
-            FILES_DISPLAY=$(echo "$CHANGED_FILES_LIST" | sed 's/^/• /g')
-            if [ $CHANGED_FILES_COUNT -gt 10 ]; then
-              FILES_DISPLAY="${FILES_DISPLAY}
-          • ... and $((CHANGED_FILES_COUNT - 10)) more files"
-                      fi
-                    fi
-          
-          # Set outputs
-          echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
-          echo "full_sha=$FULL_SHA" >> $GITHUB_OUTPUT
-          echo "commit_msg=$COMMIT_MSG" >> $GITHUB_OUTPUT
-          echo "commit_body=$COMMIT_BODY" >> $GITHUB_OUTPUT
-          echo "author_name=$AUTHOR_NAME" >> $GITHUB_OUTPUT
-          echo "author_email=$AUTHOR_EMAIL" >> $GITHUB_OUTPUT
-          echo "author_profile=$AUTHOR_PROFILE" >> $GITHUB_OUTPUT
-          echo "committer_name=$COMMITTER_NAME" >> $GITHUB_OUTPUT
-          echo "committer_email=$COMMITTER_EMAIL" >> $GITHUB_OUTPUT
-          echo "commit_date=$COMMIT_DATE" >> $GITHUB_OUTPUT
-          echo "changed_files_count=$CHANGED_FILES_COUNT" >> $GITHUB_OUTPUT
-          echo "git_stats=$GIT_STATS" >> $GITHUB_OUTPUT
-          echo "changed_files_display=$FILES_DISPLAY" >> $GITHUB_OUTPUT
-          echo "is_pr=$IS_PR" >> $GITHUB_OUTPUT
-          echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
-          echo "pr_title=$PR_TITLE" >> $GITHUB_OUTPUT
+          echo "hash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          echo "short_hash=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "author=$(git log -1 --pretty=format:'%an <%ae>')" >> $GITHUB_OUTPUT
+          echo "message=$(git log -1 --pretty=format:'%s')" >> $GITHUB_OUTPUT
+          echo "date=$(git log -1 --pretty=format:'%cd' --date=format:'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
       
-      - name: Send Slack notification
+      - name: Send Slack
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           # URLs
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          COMMIT_URL="${{ github.server_url }}/${{ github.repository }}/commit/${{ steps.commit-info.outputs.full_sha }}"
+          COMMIT_URL="${{ github.server_url }}/${{ github.repository }}/commit/${{ steps.commit.outputs.hash }}"
           REPO_URL="${{ github.server_url }}/${{ github.repository }}"
           
-          # Build author display with profile link if available
-          AUTHOR_DISPLAY="${{ steps.commit-info.outputs.author_name }}"
-          if [ -n "${{ steps.commit-info.outputs.author_profile }}" ]; then
-            AUTHOR_DISPLAY="<${{ steps.commit-info.outputs.author_profile }}|${{ steps.commit-info.outputs.author_name }}>"
-          fi
-          
-          # Build PR info if exists
-          PR_INFO=""
-          if [ "${{ steps.commit-info.outputs.is_pr }}" = "true" ]; then
-            PR_URL="${{ github.server_url }}/${{ github.repository }}/pull/${{ steps.commit-info.outputs.pr_number }}"
-            PR_INFO="*📋 Pull Request Merged*\n<${PR_URL}|#${{ steps.commit-info.outputs.pr_number }} - ${{ steps.commit-info.outputs.pr_title }}>"
-          fi
-          
-          # Build payload using jq (safer for JSON)
-          payload=$(jq -n \
-            --arg repo "${{ github.repository }}" \
-            --arg actor "${{ github.actor }}" \
-            --arg author_display "$AUTHOR_DISPLAY" \
-            --arg author_email "${{ steps.commit-info.outputs.author_email }}" \
-            --arg committer_name "${{ steps.commit-info.outputs.committer_name }}" \
-            --arg committer_email "${{ steps.commit-info.outputs.committer_email }}" \
-            --arg commit_msg "${{ steps.commit-info.outputs.commit_msg }}" \
-            --arg commit_body "${{ steps.commit-info.outputs.commit_body }}" \
-            --arg commit_date "${{ steps.commit-info.outputs.commit_date }}" \
-            --arg short_sha "${{ steps.commit-info.outputs.short_sha }}" \
-            --arg full_sha "${{ steps.commit-info.outputs.full_sha }}" \
-            --arg changed_count "${{ steps.commit-info.outputs.changed_files_count }}" \
-            --arg git_stats "${{ steps.commit-info.outputs.git_stats }}" \
-            --arg changed_files "${{ steps.commit-info.outputs.changed_files_display }}" \
-            --arg pr_info "$PR_INFO" \
-            --arg run_url "$RUN_URL" \
-            --arg commit_url "$COMMIT_URL" \
-            --arg repo_url "$REPO_URL" \
-            '{
-              blocks: [
-                {
-                  type: "header",
-                  text: {
-                    type: "plain_text",
-                    text: "🚀 New Deployment to Main",
-                    emoji: true
-                  }
-                },
-                {
-                  type: "section",
-                  fields: [
-                    {
-                      type: "mrkdwn",
-                      text: "*📂 Repository*\n<\($repo_url)|\($repo)>"
-                    },
-                    {
-                      type: "mrkdwn",
-                      text: "*👤 Triggered By*\n\($actor)"
-                    }
-                  ]
-                },
-                {
-                  type: "divider"
-                }
-              ]
-            }')
-          
-          # Add PR section if exists
-          if [ -n "$PR_INFO" ]; then
-            payload=$(echo "$payload" | jq --arg pr_info "$PR_INFO" '.blocks += [
+          # Build payload - SIMPLE and WORKING
+          payload='{
+            "blocks": [
               {
-                type: "section",
-                text: {
-                  type: "mrkdwn",
-                  text: $pr_info
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "🚀 New Deployment to Main",
+                  "emoji": true
                 }
               },
               {
-                type: "divider"
-              }
-            ]')
-          fi
-          
-          # Add author and committer section
-          payload=$(echo "$payload" | jq '.blocks += [
-            {
-              type: "section",
-              fields: [
-                {
-                  type: "mrkdwn",
-                  text: "*👨‍💻 Code Author*\n\($author_display)\n\($author_email)"
-                },
-                {
-                  type: "mrkdwn",
-                  text: "*👤 Committer*\n\($committer_name)\n\($committer_email)"
-                }
-              ]
-            },
-            {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: "*📝 Commit Message*\n```\($commit_msg)```"
-              }
-            }
-          ]')
-          
-          # Add commit body if exists
-          if [ -n "${{ steps.commit-info.outputs.commit_body }}" ]; then
-            payload=$(echo "$payload" | jq --arg commit_body "${{ steps.commit-info.outputs.commit_body }}" '.blocks += [
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Repository:*\n'"${{ github.repository }}"'"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Deployed By:*\n'"${{ github.actor }}"'"
+                  }
+                ]
+              },
               {
-                type: "section",
-                text: {
-                  type: "mrkdwn",
-                  text: "*📄 Full Description*\n\($commit_body)"
-                }
-              }
-            ]')
-          fi
-          
-          # Add stats section
-          payload=$(echo "$payload" | jq '.blocks += [
-            {
-              type: "section",
-              fields: [
-                {
-                  type: "mrkdwn",
-                  text: "*📊 Files Changed*\n\($changed_count) files"
-                },
-                {
-                  type: "mrkdwn",
-                  text: "*📈 Git Stats*\n\($git_stats)"
-                }
-              ]
-            }
-          ]')
-          
-          # Add changed files if any
-          if [ -n "${{ steps.commit-info.outputs.changed_files_display }}" ]; then
-            payload=$(echo "$payload" | jq --arg changed_files "${{ steps.commit-info.outputs.changed_files_display }}" '.blocks += [
+                "type": "divider"
+              },
               {
-                type: "section",
-                text: {
-                  type: "mrkdwn",
-                  text: "*📁 Modified Files*\n\($changed_files)"
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*👤 Who wrote the code:*\n'"${{ steps.commit.outputs.author }}"'"
                 }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*📝 What they did:*\n```'"${{ steps.commit.outputs.message }}"'```"
+                }
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*🕐 When:*\n'"${{ steps.commit.outputs.date }}"'"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*🔗 Commit:*\n<'"$COMMIT_URL"'|'"${{ steps.commit.outputs.short_hash }}"'>"
+                  }
+                ]
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "actions",
+                "elements": [
+                  {
+                    "type": "button",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "📝 View Commit",
+                      "emoji": true
+                    },
+                    "url": "'"$COMMIT_URL"'",
+                    "style": "primary"
+                  },
+                  {
+                    "type": "button",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "⚙️ View Run",
+                      "emoji": true
+                    },
+                    "url": "'"$RUN_URL"'"
+                  }
+                ]
               }
-            ]')
-          fi
-          
-          # Add date and commit hash section
-          payload=$(echo "$payload" | jq '.blocks += [
-            {
-              type: "section",
-              fields: [
-                {
-                  type: "mrkdwn",
-                  text: "*🕐 Commit Date*\n\($commit_date)"
-                },
-                {
-                  type: "mrkdwn",
-                  text: "*🔗 Commit Hash*\n<\($commit_url)|\($short_sha)>"
-                }
-              ]
-            },
-            {
-              type: "divider"
-            },
-            {
-              type: "actions",
-              elements: [
-                {
-                  type: "button",
-                  text: {
-                    type: "plain_text",
-                    text: "📝 View Commit",
-                    emoji: true
-                  },
-                  url: $commit_url,
-                  style: "primary"
-                },
-                {
-                  type: "button",
-                  text: {
-                    type: "plain_text",
-                    text: "⚙️ View Workflow",
-                    emoji: true
-                  },
-                  url: $run_url
-                },
-                {
-                  type: "button",
-                  text: {
-                    type: "plain_text",
-                    text: "📁 Repository",
-                    emoji: true
-                  },
-                  url: $repo_url
-                }
-              ]
-            },
-            {
-              type: "context",
-              elements: [
-                {
-                  type: "mrkdwn",
-                  text: "🕒 Notification sent: \(now | strftime("%Y-%m-%d %H:%M:%S UTC")) • Event: push"
-                }
-              ]
-            }
-          ]')
-          
-          echo "Payload:"
-          echo "$payload"
+            ]
+          }'
           
           curl -X POST \
             -H 'Content-type: application/json' \
-            --silent \
             --data "$payload" \
             "$SLACK_WEBHOOK_URL"
