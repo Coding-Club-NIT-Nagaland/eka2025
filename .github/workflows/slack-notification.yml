@@ -70,9 +70,9 @@ jobs:
             FILES_DISPLAY=$(echo "$CHANGED_FILES_LIST" | sed 's/^/• /g')
             if [ $CHANGED_FILES_COUNT -gt 10 ]; then
               FILES_DISPLAY="${FILES_DISPLAY}
-• ... and $((CHANGED_FILES_COUNT - 10)) more files"
-            fi
-          fi
+          • ... and $((CHANGED_FILES_COUNT - 10)) more files"
+                      fi
+                    fi
           
           # Set outputs
           echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
