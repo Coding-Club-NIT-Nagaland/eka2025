@@ -166,9 +166,9 @@ const Events = () => {
       location: "Main Ground",
       image: "/images/rv.png",
       description:
-        "Rockville (DJ Night)\nAn electrifying DJ night that brings the campus alive with powerful beats and vibrant energy.\nA celebration of music, dance, and togetherness, making it one of the most awaited events.\nPure vibes, lights, and unforgettable memories.",
+        "Rockville \nAn electrifying Musical Band Show that brings the campus alive with powerful beats and vibrant energy.\nA celebration of music, beat , and togetherness, making it one of the most awaited events.\nPure vibes, lights, and unforgettable memories.",
       shortDescription:
-        "An electrifying DJ night filled with music, beats, and energy—where the crowd vibes nonstop.",
+        "An electrifying Musical Band filled with music, beats, and energy—where the crowd vibes nonstop.",
       tag: "Music",
       prizePool: 60000,
       prizeBreakup: {
