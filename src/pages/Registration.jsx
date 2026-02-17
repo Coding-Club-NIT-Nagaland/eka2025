@@ -659,7 +659,7 @@ const Registration = () => {
             <div className="flex justify-center mb-4">
               <div className="bg-white p-6 rounded-lg shadow-lg">
                 <img 
-                  src="/images/teja.png" 
+                  src="/images/rc.jpg" 
                   alt="Scan to Pay" 
                   className="w-64 h-64 object-contain"
                   onError={(e) => {
@@ -672,7 +672,7 @@ const Registration = () => {
             </div>
             <div className="space-y-2">
               <p className="text-gray-300 text-sm">
-                UPI ID: <span className="text-cyan-300 font-mono">kondari@nyes</span>
+                UPI ID: <span className="text-cyan-300 font-mono">Registration Closed</span>
               </p>
               <p className="text-yellow-300 text-xs">
                 Note: Use this single QR code/UPI ID for all event registrations
