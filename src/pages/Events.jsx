@@ -253,8 +253,8 @@ const Events = () => {
       id: 7,
       title: "Survive NIT",
       date: "Will be updated soon",
-      time: "5:00 PM - 9:00 PM",
-      location: "Main Stage",
+      time: "9:00 AM - 12:00 PM",
+      location: "Class Room 1A",
       image: "/images/sn.png",
       description:
         "A reality-show-inspired survival challenge designed to test physical stamina, mental strength, and strategy.\nParticipants face multiple rounds of tasks and eliminations.\nOnly the most adaptable and determined survive till the end.",
@@ -266,12 +266,12 @@ const Events = () => {
         first: 1500,
         second: 0,
       },
+      rules: ["/rules/survive.pdf"],
       registrationFee: {
         inside: 50,
         outside: 100,
       },
-      teamSize: "As required",
-      rules: ["Will be Updated Soon"],
+      teamSize: "3 members",
       highlights: [
         "Multiple elimination-style rounds",
         "Tests endurance, wit, and teamwork",
