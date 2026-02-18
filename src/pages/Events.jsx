@@ -224,7 +224,7 @@ const Events = () => {
       id: 6,
       title: "MLBB",
       date: "19 February 2026",
-      time: "02:30 P.M.",
+      time: "01:00 P.M.",
       location: "NIT Nagaland",
       image: "/images/mlbb_n.jpeg",
       description:
