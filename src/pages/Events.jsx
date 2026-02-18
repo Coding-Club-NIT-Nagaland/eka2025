@@ -386,7 +386,7 @@ const Events = () => {
         inside: 50,
         outside: 100,
       },
-      teamSize: "1-6 members",
+      teamSize: "Solo",
       rules: ["Will be Updated Soon"],
       highlights: [
         "Perfect for ECE / EE enthusiasts",
