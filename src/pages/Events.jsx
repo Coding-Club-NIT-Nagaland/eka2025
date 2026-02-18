@@ -300,7 +300,7 @@ const Events = () => {
         outside: 100,
       },
       teamSize: "As required",
-      rules: ["Will be Updated Soon"],
+      rules: ["/rules/pi_rules.pdf"],
       highlights: [
         "Perfect for startup and idea-stage founders",
         "Valuable feedback from judges",
@@ -329,7 +329,7 @@ const Events = () => {
         outside: 100,
       },
       teamSize: "Solo",
-      rules: ["Will be Updated Soon"],
+      rules: ["/rules/bs_rules.pdf"],
       highlights: [
         "Perfect for puzzle and quiz lovers",
         "Tests logic, memory, and reasoning",
