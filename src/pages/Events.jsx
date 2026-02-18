@@ -358,7 +358,7 @@ const Events = () => {
         outside: 100,
       },
       teamSize: "1-6 members",
-      rules: ["Will be Updated Soon"],
+      rules: ["/rules/sb_rules.pdf"],
       highlights: [
         "Progressive difficulty rounds",
         "Tests spelling, memory, and composure",
@@ -415,8 +415,8 @@ const Events = () => {
         inside: 50,
         outside: 100,
       },
-      teamSize: "1-6 members",
-      rules: ["Will be Updated Soon"],
+      teamSize: "1 Member",
+      rules: ["/rules/rang_rules.pdf"],
       highlights: [
         "Traditional art meets modern creativity",
         "Judged on symmetry, design, and theme",
