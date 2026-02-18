@@ -387,7 +387,7 @@ const Events = () => {
         outside: 100,
       },
       teamSize: "Solo",
-      rules: ["/rules/cx.pdf"],
+      rules: ["/rules/cx_rules.pdf"],
       highlights: [
         "Perfect for ECE / EE enthusiasts",
         "Combines theory with hands-on logic",
