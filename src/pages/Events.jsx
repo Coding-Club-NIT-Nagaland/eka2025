@@ -357,7 +357,7 @@ const Events = () => {
         inside: 50,
         outside: 100,
       },
-      teamSize: "1-6 members",
+      teamSize: "1 Member",
       rules: ["/rules/sb_rules.pdf"],
       highlights: [
         "Progressive difficulty rounds",
