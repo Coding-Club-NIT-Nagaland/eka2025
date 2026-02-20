@@ -37,7 +37,7 @@ export default function Highlights() {
         >
           <div className="px-6 py-5 border-b border-white/10">
             <h3 className="text-2xl md:text-3xl font-bold text-white">Ekarikthin Events Winners</h3>
-            <p className="text-white/70 mt-1 text-sm md:text-base">Enter the winner names for each event.</p>
+            
           </div>
 
           <div className="overflow-x-auto">
